@@ -5,34 +5,44 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="content">
-        <div class="Container100 NoIndent" id="volt-customers" style="background-color:#F0F2F5; padding:0px 3rem;">
-            <div class="EmptyBox20"></div>
-            <div class="Wid70 MarAuto ex1">
-                <h:form>
-                    <div class="Container50 Responsive100">
-                        <div class="Container100 TexAlCenter">
-                            <div class="EmptyBox20"></div>
-                            <p:commandLink action="/administrativo.jsf?faces-redirect=true">
-                                <h:graphicImage name="administrativo.png" library="images" style="width:180px; height:180px;" class="img-move"/>    
-                            </p:commandLink>
-                            <div class="EmptyBox20"></div>
-                            <span class="title">ADMINISTRATIVO</span>
-                        </div>
-                    </div>
-                    <div class="Container50 Responsive100">
-                        <div class="Container100 TexAlCenter">
-                            <div class="EmptyBox20"></div>
-                            <p:commandLink action="/comunidad.jsf?faces-redirect=true">
-                                <h:graphicImage name="comunidad.png" library="images" class="img-move"/>    
-                            </p:commandLink>
-                            <div class="EmptyBox20"></div>
-                            <span class="title">COMUNIDAD EDUCATIVA</span>
-                        </div>
-                    </div>
-                </h:form>
-            </div>
-            <div class="EmptyBox50"></div>
-        </div>
-    </ui:define>
+        <div class="Container100">
+            <div class="Container10"/>
+            <div class="Container80">
+                <div class="Card">
+                    <div class="CardTopic">Listado de Consultorias</div>
+                    <div class="SeparatorFull"></div>
+                    <div class="Container100 NoIndent">
+                        <h:form id="form">
+                            <p:dataGrid id="formularios" 
+                                        value="#{inicio.formularioList}"
+                                        var="formulario"
+                                        columns="1"
+                                        layout="grid"
+                                        rows="12"
+                                        paginator="true"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="6,12,18"
+                                        >
 
+                                <f:facet name="header">
+                                    Consultorias
+                                </f:facet>
+
+                                <p:panel header="#{formulario.nombre}" style="text-align: center;">
+                                    <h:panelGrid columns="1" style="width: 100%">
+                                        <h:outputText value="#{formulario.descripcion}"/>
+                                        <p:commandButton icon="fa fa-calendar-o" styleClass="OrangeButton RaisedButton" action="#{inicio.irFormulario()}">
+                                            <f:setPropertyActionListener value="#{formulario}" target="#{inicio.formulario}"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:dataGrid>
+                        </h:form>
+                    </div>
+                </div>
+            </div> 
+            <div class="Container10"/>    
+        </div>
+
+    </ui:define>
 </ui:composition>

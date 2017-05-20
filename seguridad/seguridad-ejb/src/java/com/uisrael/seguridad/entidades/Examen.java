@@ -25,24 +25,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ricardo
  */
 @Entity
-@Table(catalog = "seguridad", schema = "public")
-@XmlRootElement
+@Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id"})})
 @NamedQueries({
-    @NamedQuery(name = "Examen.findAll", query = "SELECT e FROM Examen e")
-    , @NamedQuery(name = "Examen.findById", query = "SELECT e FROM Examen e WHERE e.id = :id")
-    , @NamedQuery(name = "Examen.findByFecha", query = "SELECT e FROM Examen e WHERE e.fecha = :fecha")
-    , @NamedQuery(name = "Examen.findByEstado", query = "SELECT e FROM Examen e WHERE e.estado = :estado")
-    , @NamedQuery(name = "Examen.findByCodigo", query = "SELECT e FROM Examen e WHERE e.codigo = :codigo")
-    , @NamedQuery(name = "Examen.findByTotal", query = "SELECT e FROM Examen e WHERE e.total = :total")})
+    @NamedQuery(name = "Examen.findAll", query = "SELECT e FROM Examen e")})
 public class Examen implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,16 +52,18 @@ public class Examen implements Serializable {
     @Column(length = 2147483647)
     private String codigo;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(precision = 6, scale = 2)
+    @Column(precision = 5, scale = 2)
     private BigDecimal total;
     @JoinColumn(name = "empresa", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Empresa empresa;
     @JoinColumn(name = "formulario", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Formulario formulario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen1", fetch = FetchType.LAZY)
-    private List<ExaDatos> exaDatosList;
+    @OneToMany(mappedBy = "examen", fetch = FetchType.EAGER)
+    private List<RecomendacionExamen> recomendacionExamenList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen1", fetch = FetchType.EAGER)
+    private List<DatosExamen> datosExamenList;
 
     public Examen() {
     }
@@ -132,13 +128,20 @@ public class Examen implements Serializable {
         this.formulario = formulario;
     }
 
-    @XmlTransient
-    public List<ExaDatos> getExaDatosList() {
-        return exaDatosList;
+    public List<RecomendacionExamen> getRecomendacionExamenList() {
+        return recomendacionExamenList;
     }
 
-    public void setExaDatosList(List<ExaDatos> exaDatosList) {
-        this.exaDatosList = exaDatosList;
+    public void setRecomendacionExamenList(List<RecomendacionExamen> recomendacionExamenList) {
+        this.recomendacionExamenList = recomendacionExamenList;
+    }
+
+    public List<DatosExamen> getDatosExamenList() {
+        return datosExamenList;
+    }
+
+    public void setDatosExamenList(List<DatosExamen> datosExamenList) {
+        this.datosExamenList = datosExamenList;
     }
 
     @Override
@@ -163,7 +166,7 @@ public class Examen implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.model.Examen[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.Examen[ id=" + id + " ]";
     }
     
 }

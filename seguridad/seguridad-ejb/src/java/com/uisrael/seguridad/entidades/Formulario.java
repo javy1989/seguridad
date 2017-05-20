@@ -21,26 +21,18 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ricardo
  */
 @Entity
-@Table(catalog = "seguridad", schema = "public")
-@XmlRootElement
+@Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id"})})
 @NamedQueries({
-    @NamedQuery(name = "Formulario.findAll", query = "SELECT f FROM Formulario f")
-    , @NamedQuery(name = "Formulario.findById", query = "SELECT f FROM Formulario f WHERE f.id = :id")
-    , @NamedQuery(name = "Formulario.findByNombre", query = "SELECT f FROM Formulario f WHERE f.nombre = :nombre")
-    , @NamedQuery(name = "Formulario.findByDescripcion", query = "SELECT f FROM Formulario f WHERE f.descripcion = :descripcion")
-    , @NamedQuery(name = "Formulario.findByCodigo", query = "SELECT f FROM Formulario f WHERE f.codigo = :codigo")
-    , @NamedQuery(name = "Formulario.findByEstado", query = "SELECT f FROM Formulario f WHERE f.estado = :estado")
-    , @NamedQuery(name = "Formulario.findByFecha", query = "SELECT f FROM Formulario f WHERE f.fecha = :fecha")
-    , @NamedQuery(name = "Formulario.findByUserid", query = "SELECT f FROM Formulario f WHERE f.userid = :userid")})
+    @NamedQuery(name = "Formulario.findAll", query = "SELECT f FROM Formulario f")})
 public class Formulario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,19 +47,18 @@ public class Formulario implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String descripcion;
-    @Size(max = 2147483647)
-    @Column(length = 2147483647)
-    private String codigo;
-    private Boolean estado;
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @Size(max = 2147483647)
     @Column(length = 2147483647)
-    private String userid;
-    @OneToMany(mappedBy = "formulario", fetch = FetchType.LAZY)
+    private String codigo;
+    private Boolean estado;
+    @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<Examen> examenList;
-    @OneToMany(mappedBy = "formulario", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<DatosFormulario> datosFormularioList;
+    @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
+    private List<Recomendacion> recomendacionList;
 
     public Formulario() {
     }
@@ -100,6 +91,14 @@ public class Formulario implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
     public String getCodigo() {
         return codigo;
     }
@@ -116,23 +115,6 @@ public class Formulario implements Serializable {
         this.estado = estado;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getUserid() {
-        return userid;
-    }
-
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
-
-    @XmlTransient
     public List<Examen> getExamenList() {
         return examenList;
     }
@@ -141,13 +123,20 @@ public class Formulario implements Serializable {
         this.examenList = examenList;
     }
 
-    @XmlTransient
     public List<DatosFormulario> getDatosFormularioList() {
         return datosFormularioList;
     }
 
     public void setDatosFormularioList(List<DatosFormulario> datosFormularioList) {
         this.datosFormularioList = datosFormularioList;
+    }
+
+    public List<Recomendacion> getRecomendacionList() {
+        return recomendacionList;
+    }
+
+    public void setRecomendacionList(List<Recomendacion> recomendacionList) {
+        this.recomendacionList = recomendacionList;
     }
 
     @Override
@@ -172,7 +161,7 @@ public class Formulario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.model.Formulario[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.Formulario[ id=" + id + " ]";
     }
     
 }

@@ -14,26 +14,25 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ricardo
  */
 @Entity
-@Table(catalog = "seguridad", schema = "public")
-@XmlRootElement
+@Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id"})})
 @NamedQueries({
-    @NamedQuery(name = "Respuesta.findAll", query = "SELECT r FROM Respuesta r")
-    , @NamedQuery(name = "Respuesta.findById", query = "SELECT r FROM Respuesta r WHERE r.id = :id")
-    , @NamedQuery(name = "Respuesta.findByDescripcion", query = "SELECT r FROM Respuesta r WHERE r.descripcion = :descripcion")
-    , @NamedQuery(name = "Respuesta.findByEstado", query = "SELECT r FROM Respuesta r WHERE r.estado = :estado")})
+    @NamedQuery(name = "Respuesta.findAll", query = "SELECT r FROM Respuesta r")})
 public class Respuesta implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,20 +41,32 @@ public class Respuesta implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(nullable = false, length = 2147483647)
+    private String nombre;
     @Size(max = 2147483647)
     @Column(length = 2147483647)
-    private String descripcion;
-    private Boolean estado;
-    @OneToMany(mappedBy = "respuesta", fetch = FetchType.LAZY)
+    private String codigo;
+    @OneToMany(mappedBy = "respuesta", fetch = FetchType.EAGER)
     private List<DatosFormulario> datosFormularioList;
-    @OneToMany(mappedBy = "respuesta", fetch = FetchType.LAZY)
-    private List<ExaDatos> exaDatosList;
+    @OneToMany(mappedBy = "respuesta", fetch = FetchType.EAGER)
+    private List<DatosExamen> datosExamenList;
+    @JoinColumn(name = "grupo", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Grupo grupo;
 
     public Respuesta() {
     }
 
     public Respuesta(Integer id) {
         this.id = id;
+    }
+
+    public Respuesta(Integer id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
     }
 
     public Integer getId() {
@@ -66,23 +77,22 @@ public class Respuesta implements Serializable {
         this.id = id;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    @XmlTransient
     public List<DatosFormulario> getDatosFormularioList() {
         return datosFormularioList;
     }
@@ -91,13 +101,20 @@ public class Respuesta implements Serializable {
         this.datosFormularioList = datosFormularioList;
     }
 
-    @XmlTransient
-    public List<ExaDatos> getExaDatosList() {
-        return exaDatosList;
+    public List<DatosExamen> getDatosExamenList() {
+        return datosExamenList;
     }
 
-    public void setExaDatosList(List<ExaDatos> exaDatosList) {
-        this.exaDatosList = exaDatosList;
+    public void setDatosExamenList(List<DatosExamen> datosExamenList) {
+        this.datosExamenList = datosExamenList;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     @Override
@@ -122,7 +139,7 @@ public class Respuesta implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.model.Respuesta[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.Respuesta[ id=" + id + " ]";
     }
     
 }

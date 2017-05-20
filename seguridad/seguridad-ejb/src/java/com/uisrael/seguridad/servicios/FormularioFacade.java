@@ -9,6 +9,7 @@ import com.uisrael.seguridad.entidades.Formulario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,14 @@ public class FormularioFacade extends AbstractFacade<Formulario> {
     public FormularioFacade() {
         super(Formulario.class);
     }
-    
+
+    public Formulario traerFormulario(String codigo) {
+        try {
+            Query q = em.createQuery("select f from Formulario as f where f.codigo= :codigo");
+            q.setParameter("codigo", codigo);
+            return (Formulario) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

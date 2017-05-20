@@ -14,31 +14,24 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author ricardo
  */
 @Entity
-@Table(catalog = "seguridad", schema = "public")
-@XmlRootElement
+@Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id"})})
 @NamedQueries({
-    @NamedQuery(name = "Empresa.findAll", query = "SELECT e FROM Empresa e")
-    , @NamedQuery(name = "Empresa.findById", query = "SELECT e FROM Empresa e WHERE e.id = :id")
-    , @NamedQuery(name = "Empresa.findByNombre", query = "SELECT e FROM Empresa e WHERE e.nombre = :nombre")
-    , @NamedQuery(name = "Empresa.findByMail", query = "SELECT e FROM Empresa e WHERE e.mail = :mail")
-    , @NamedQuery(name = "Empresa.findByTelefono", query = "SELECT e FROM Empresa e WHERE e.telefono = :telefono")
-    , @NamedQuery(name = "Empresa.findByDireccion", query = "SELECT e FROM Empresa e WHERE e.direccion = :direccion")
-    , @NamedQuery(name = "Empresa.findByCiudad", query = "SELECT e FROM Empresa e WHERE e.ciudad = :ciudad")
-    , @NamedQuery(name = "Empresa.findByProvincia", query = "SELECT e FROM Empresa e WHERE e.provincia = :provincia")
-    , @NamedQuery(name = "Empresa.findByPais", query = "SELECT e FROM Empresa e WHERE e.pais = :pais")})
+    @NamedQuery(name = "Empresa.findAll", query = "SELECT e FROM Empresa e")})
 public class Empresa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,17 +52,14 @@ public class Empresa implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String direccion;
-    @Size(max = 2147483647)
-    @Column(length = 2147483647)
-    private String ciudad;
-    @Size(max = 2147483647)
-    @Column(length = 2147483647)
-    private String provincia;
-    @Size(max = 2147483647)
-    @Column(length = 2147483647)
-    private String pais;
-    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER)
     private List<Examen> examenList;
+    @JoinColumn(name = "ciudad", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Ciudad ciudad;
+    @JoinColumn(name = "tipo_empresa", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private TipoEmpresa tipoEmpresa;
 
     public Empresa() {
     }
@@ -118,37 +108,28 @@ public class Empresa implements Serializable {
         this.direccion = direccion;
     }
 
-    public String getCiudad() {
-        return ciudad;
-    }
-
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
-    }
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
-
-    @XmlTransient
     public List<Examen> getExamenList() {
         return examenList;
     }
 
     public void setExamenList(List<Examen> examenList) {
         this.examenList = examenList;
+    }
+
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public TipoEmpresa getTipoEmpresa() {
+        return tipoEmpresa;
+    }
+
+    public void setTipoEmpresa(TipoEmpresa tipoEmpresa) {
+        this.tipoEmpresa = tipoEmpresa;
     }
 
     @Override
@@ -173,7 +154,7 @@ public class Empresa implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.model.Empresa[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.Empresa[ id=" + id + " ]";
     }
     
 }

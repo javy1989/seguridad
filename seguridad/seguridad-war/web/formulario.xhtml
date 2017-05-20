@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="Container10"/>
+            <div class="Container80 Responsive100">
+                <div class="Card ui-fluid">                    
+                    <div class="Container20"/>
+                    <div class="Container60 ">
+                        <h:form id="form">
+                                <p:fieldset rendered="#{formulario.pantallaDatos.mostrar}" legend="Formulario de Datos Empresa">
+                                    <h:panelGrid columns="2" style="width: 100%" >
+                                        <h:outputLabel value="Tipo de Empresa:" for="tipoEmpresa"/>
+                                        <p:selectOneMenu id="tipoEmpresa" value="#{formulario.empresa.tipoEmpresa}" filter="true" filterMatchMode="contains">
+                                            <f:selectItems value="#{formulario.tipoEmpresaItem}"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel value="Pais:" for="pais"/>
+                                        <p:selectOneMenu id="pais" value="#{formulario.empresa.ciudad.pais}" filter="true" filterMatchMode="contains">
+                                            <f:selectItems value="#{formulario.paisItem}"/>
+                                            <p:ajax  event="change" immediate="true" update="provincia"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel value="Provincia:" for="provincia"/>
+                                        <p:selectOneMenu id="provincia" value="#{formulario.empresa.ciudad.provincia}">
+                                            <f:selectItems value="#{formulario.provinciaItem}"/>
+                                            <p:ajax event="change" immediate="true" update="ciudad" />
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel value="Ciudad:" for="ciudad"/>
+                                        <p:selectOneMenu id="ciudad" value="#{formulario.empresa.ciudad}">
+                                            <f:selectItems value="#{formulario.ciudadItem}"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel value="Nombre Empresa:" for="nombre"/>
+                                        <p:inputText id="nombre" value="#{formulario.empresa.nombre}"/>
+
+                                        <h:outputLabel value="Correo Electronico:" for="mail"/>
+                                        <p:inputText id="mail" value="#{formulario.empresa.mail}">
+                                            <f:validator validatorId="validadorEmail"/>
+                                        </p:inputText>
+
+                                        <h:outputLabel value="Telefono:" for="tlf"/>
+                                        <p:inputText id="tlf" value="#{formulario.empresa.telefono}"/>
+
+                                        <h:outputLabel value="Direccion:" for="direccion"/>
+                                        <p:inputText id="direccion" value="#{formulario.empresa.direccion}"/>
+                                    </h:panelGrid>
+                                </p:fieldset>
+                            
+                        </h:form>
+                    </div>
+                    <div class="Container20"/>
+
+                </div>
+
+            </div>
+            <div class="Container10"/>
+        </div> 
+    </ui:define>
+
+</ui:composition>

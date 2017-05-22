@@ -119,7 +119,7 @@ public class Provincia implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Provincia[ id=" + id + " ]";
     }
     
 }

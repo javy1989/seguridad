@@ -50,12 +50,12 @@ public class Respuesta implements Serializable {
     @Column(length = 2147483647)
     private String codigo;
     @OneToMany(mappedBy = "respuesta", fetch = FetchType.EAGER)
-    private List<DatosFormulario> datosFormularioList;
+    private List<ApartadoPregunta> apartadoPreguntaList;
     @OneToMany(mappedBy = "respuesta", fetch = FetchType.EAGER)
     private List<DatosExamen> datosExamenList;
     @JoinColumn(name = "grupo", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Grupo grupo;
+    private GrupoRespuesta grupo;
 
     public Respuesta() {
     }
@@ -93,12 +93,12 @@ public class Respuesta implements Serializable {
         this.codigo = codigo;
     }
 
-    public List<DatosFormulario> getDatosFormularioList() {
-        return datosFormularioList;
+    public List<ApartadoPregunta> getApartadoPreguntaList() {
+        return apartadoPreguntaList;
     }
 
-    public void setDatosFormularioList(List<DatosFormulario> datosFormularioList) {
-        this.datosFormularioList = datosFormularioList;
+    public void setApartadoPreguntaList(List<ApartadoPregunta> apartadoPreguntaList) {
+        this.apartadoPreguntaList = apartadoPreguntaList;
     }
 
     public List<DatosExamen> getDatosExamenList() {
@@ -109,11 +109,11 @@ public class Respuesta implements Serializable {
         this.datosExamenList = datosExamenList;
     }
 
-    public Grupo getGrupo() {
+    public GrupoRespuesta getGrupo() {
         return grupo;
     }
 
-    public void setGrupo(Grupo grupo) {
+    public void setGrupo(GrupoRespuesta grupo) {
         this.grupo = grupo;
     }
 

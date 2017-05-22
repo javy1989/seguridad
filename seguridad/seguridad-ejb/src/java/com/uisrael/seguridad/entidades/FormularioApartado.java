@@ -7,10 +7,8 @@ package com.uisrael.seguridad.entidades;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,21 +21,18 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author ricardo
  */
 @Entity
-@Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
+@Table(name = "formulario_apartado", catalog = "seguridad", schema = "public", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @NamedQueries({
-    @NamedQuery(name = "Examen.findAll", query = "SELECT e FROM Examen e")})
-public class Examen implements Serializable {
+    @NamedQuery(name = "FormularioApartado.findAll", query = "SELECT f FROM FormularioApartado f")})
+public class FormularioApartado implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,32 +40,26 @@ public class Examen implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+    private Integer orden;
     private Boolean estado;
-    @Size(max = 2147483647)
-    @Column(length = 2147483647)
-    private String codigo;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(precision = 5, scale = 2)
-    private BigDecimal total;
-    @JoinColumn(name = "empresa", referencedColumnName = "id")
+    @Column(name = "valor_apartado", precision = 5, scale = 2)
+    private BigDecimal valorApartado;
+    @OneToMany(mappedBy = "apartado", fetch = FetchType.EAGER)
+    private List<ApartadoPregunta> apartadoPreguntaList;
+    @OneToMany(mappedBy = "formularioApartado", fetch = FetchType.EAGER)
+    private List<DetalleExamen> detalleExamenList;
+    @JoinColumn(name = "apartado", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Empresa empresa;
+    private Apartado apartado;
     @JoinColumn(name = "formulario", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Formulario formulario;
-    @OneToMany(mappedBy = "examen", fetch = FetchType.EAGER)
-    private List<RecomendacionExamen> recomendacionExamenList;
-    @OneToMany(mappedBy = "examen", fetch = FetchType.EAGER)
-    private List<DetalleExamen> detalleExamenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen1", fetch = FetchType.EAGER)
-    private List<DatosExamen> datosExamenList;
 
-    public Examen() {
+    public FormularioApartado() {
     }
 
-    public Examen(Integer id) {
+    public FormularioApartado(Integer id) {
         this.id = id;
     }
 
@@ -82,12 +71,12 @@ public class Examen implements Serializable {
         this.id = id;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Integer getOrden() {
+        return orden;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
 
     public Boolean getEstado() {
@@ -98,44 +87,20 @@ public class Examen implements Serializable {
         this.estado = estado;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public BigDecimal getValorApartado() {
+        return valorApartado;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setValorApartado(BigDecimal valorApartado) {
+        this.valorApartado = valorApartado;
     }
 
-    public BigDecimal getTotal() {
-        return total;
+    public List<ApartadoPregunta> getApartadoPreguntaList() {
+        return apartadoPreguntaList;
     }
 
-    public void setTotal(BigDecimal total) {
-        this.total = total;
-    }
-
-    public Empresa getEmpresa() {
-        return empresa;
-    }
-
-    public void setEmpresa(Empresa empresa) {
-        this.empresa = empresa;
-    }
-
-    public Formulario getFormulario() {
-        return formulario;
-    }
-
-    public void setFormulario(Formulario formulario) {
-        this.formulario = formulario;
-    }
-
-    public List<RecomendacionExamen> getRecomendacionExamenList() {
-        return recomendacionExamenList;
-    }
-
-    public void setRecomendacionExamenList(List<RecomendacionExamen> recomendacionExamenList) {
-        this.recomendacionExamenList = recomendacionExamenList;
+    public void setApartadoPreguntaList(List<ApartadoPregunta> apartadoPreguntaList) {
+        this.apartadoPreguntaList = apartadoPreguntaList;
     }
 
     public List<DetalleExamen> getDetalleExamenList() {
@@ -146,12 +111,20 @@ public class Examen implements Serializable {
         this.detalleExamenList = detalleExamenList;
     }
 
-    public List<DatosExamen> getDatosExamenList() {
-        return datosExamenList;
+    public Apartado getApartado() {
+        return apartado;
     }
 
-    public void setDatosExamenList(List<DatosExamen> datosExamenList) {
-        this.datosExamenList = datosExamenList;
+    public void setApartado(Apartado apartado) {
+        this.apartado = apartado;
+    }
+
+    public Formulario getFormulario() {
+        return formulario;
+    }
+
+    public void setFormulario(Formulario formulario) {
+        this.formulario = formulario;
     }
 
     @Override
@@ -164,10 +137,10 @@ public class Examen implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Examen)) {
+        if (!(object instanceof FormularioApartado)) {
             return false;
         }
-        Examen other = (Examen) object;
+        FormularioApartado other = (FormularioApartado) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -176,7 +149,7 @@ public class Examen implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Examen[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.FormularioApartado[ id=" + id + " ]";
     }
     
 }

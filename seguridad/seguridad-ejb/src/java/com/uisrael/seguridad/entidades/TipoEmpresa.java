@@ -128,7 +128,7 @@ public class TipoEmpresa implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.TipoEmpresa[ id=" + id + " ]";
     }
     
 }

@@ -29,11 +29,11 @@ import javax.persistence.UniqueConstraint;
  * @author ricardo
  */
 @Entity
-@Table(name = "datos_formulario", catalog = "seguridad", schema = "public", uniqueConstraints = {
+@Table(name = "apartado_pregunta", catalog = "seguridad", schema = "public", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @NamedQueries({
-    @NamedQuery(name = "DatosFormulario.findAll", query = "SELECT d FROM DatosFormulario d")})
-public class DatosFormulario implements Serializable {
+    @NamedQuery(name = "ApartadoPregunta.findAll", query = "SELECT a FROM ApartadoPregunta a")})
+public class ApartadoPregunta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,32 +44,24 @@ public class DatosFormulario implements Serializable {
     private Integer orden;
     private Boolean estado;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "valor_apartado", precision = 5, scale = 2)
-    private BigDecimal valorApartado;
     @Column(name = "valor_pregunta", precision = 5, scale = 2)
     private BigDecimal valorPregunta;
     @JoinColumn(name = "apartado", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private Apartado apartado;
-    @JoinColumn(name = "formulario", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Formulario formulario;
-    @JoinColumn(name = "grupo_respuesta", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Grupo grupoRespuesta;
+    private FormularioApartado apartado;
     @JoinColumn(name = "pregunta", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Pregunta pregunta;
     @JoinColumn(name = "respuesta", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Respuesta respuesta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "datosFormulario", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "apartadoPregunta1", fetch = FetchType.EAGER)
     private List<DatosExamen> datosExamenList;
 
-    public DatosFormulario() {
+    public ApartadoPregunta() {
     }
 
-    public DatosFormulario(Integer id) {
+    public ApartadoPregunta(Integer id) {
         this.id = id;
     }
 
@@ -97,14 +89,6 @@ public class DatosFormulario implements Serializable {
         this.estado = estado;
     }
 
-    public BigDecimal getValorApartado() {
-        return valorApartado;
-    }
-
-    public void setValorApartado(BigDecimal valorApartado) {
-        this.valorApartado = valorApartado;
-    }
-
     public BigDecimal getValorPregunta() {
         return valorPregunta;
     }
@@ -113,28 +97,12 @@ public class DatosFormulario implements Serializable {
         this.valorPregunta = valorPregunta;
     }
 
-    public Apartado getApartado() {
+    public FormularioApartado getApartado() {
         return apartado;
     }
 
-    public void setApartado(Apartado apartado) {
+    public void setApartado(FormularioApartado apartado) {
         this.apartado = apartado;
-    }
-
-    public Formulario getFormulario() {
-        return formulario;
-    }
-
-    public void setFormulario(Formulario formulario) {
-        this.formulario = formulario;
-    }
-
-    public Grupo getGrupoRespuesta() {
-        return grupoRespuesta;
-    }
-
-    public void setGrupoRespuesta(Grupo grupoRespuesta) {
-        this.grupoRespuesta = grupoRespuesta;
     }
 
     public Pregunta getPregunta() {
@@ -171,10 +139,10 @@ public class DatosFormulario implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof DatosFormulario)) {
+        if (!(object instanceof ApartadoPregunta)) {
             return false;
         }
-        DatosFormulario other = (DatosFormulario) object;
+        ApartadoPregunta other = (ApartadoPregunta) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -183,7 +151,7 @@ public class DatosFormulario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.DatosFormulario[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.ApartadoPregunta[ id=" + id + " ]";
     }
     
 }

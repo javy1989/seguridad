@@ -20,8 +20,8 @@ public class DatosExamenPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "dato_formulario", nullable = false)
-    private int datoFormulario;
+    @Column(name = "apartado_pregunta", nullable = false)
+    private int apartadoPregunta;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
@@ -30,17 +30,17 @@ public class DatosExamenPK implements Serializable {
     public DatosExamenPK() {
     }
 
-    public DatosExamenPK(int datoFormulario, int examen) {
-        this.datoFormulario = datoFormulario;
+    public DatosExamenPK(int apartadoPregunta, int examen) {
+        this.apartadoPregunta = apartadoPregunta;
         this.examen = examen;
     }
 
-    public int getDatoFormulario() {
-        return datoFormulario;
+    public int getApartadoPregunta() {
+        return apartadoPregunta;
     }
 
-    public void setDatoFormulario(int datoFormulario) {
-        this.datoFormulario = datoFormulario;
+    public void setApartadoPregunta(int apartadoPregunta) {
+        this.apartadoPregunta = apartadoPregunta;
     }
 
     public int getExamen() {
@@ -54,7 +54,7 @@ public class DatosExamenPK implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (int) datoFormulario;
+        hash += (int) apartadoPregunta;
         hash += (int) examen;
         return hash;
     }
@@ -66,7 +66,7 @@ public class DatosExamenPK implements Serializable {
             return false;
         }
         DatosExamenPK other = (DatosExamenPK) object;
-        if (this.datoFormulario != other.datoFormulario) {
+        if (this.apartadoPregunta != other.apartadoPregunta) {
             return false;
         }
         if (this.examen != other.examen) {
@@ -77,7 +77,7 @@ public class DatosExamenPK implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.DatosExamenPK[ datoFormulario=" + datoFormulario + ", examen=" + examen + " ]";
+        return "com.uisrael.seguridad.entidades.DatosExamenPK[ apartadoPregunta=" + apartadoPregunta + ", examen=" + examen + " ]";
     }
     
 }

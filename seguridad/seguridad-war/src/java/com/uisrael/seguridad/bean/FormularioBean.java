@@ -7,6 +7,7 @@ package com.uisrael.seguridad.bean;
 
 import com.plancurricular.excepciones.ConsultarException;
 import com.plancurricular.utilitarios.Pantalla;
+import com.uisrael.seguridad.entidades.ApartadoPregunta;
 import com.uisrael.seguridad.entidades.Ciudad;
 import com.uisrael.seguridad.entidades.DatosExamen;
 import com.uisrael.seguridad.entidades.Empresa;
@@ -58,8 +59,10 @@ public class FormularioBean {
     private Formulario consultoria;
     private Examen examen;
     private Empresa empresa;
-    private List<DatosExamen> previoList;
-    private List<DatosExamen> consultoriaList;
+    private List<DatosExamen> previoRespuestaList;
+    private List<DatosExamen> consultoriaRespuestaList;
+    private List<ApartadoPregunta> previoList;
+    private List<ApartadoPregunta> consultoriaList;
 
     public FormularioBean() {
     }
@@ -139,6 +142,39 @@ public class FormularioBean {
         return null;
     }
 
+    public String continuarPrevio() {
+        if (empresa.getCiudad() == null) {
+            MostrarMensaje.error("Informacion", "Se debe ingresar la ciudad");
+        }
+
+        return null;
+    }
+
+    /**
+     * 0 continua a previo formulario 1 continua a consultoria
+     *
+     * @param opcion
+     */
+    public void continua(int opcion) {
+        switch (opcion) {
+            case 0:
+                previo = ejbFormulario.traerFormulario("PR3V10");
+
+                pantallaDatos.cancelar();
+                pantallaPrevio.insertar();
+                break;
+            case 1:
+                pantallaPrevio.cancelar();
+                pantallaConsultoria.insertar();
+                break;
+        }
+    }
+
+    private void traeDatoFormularioPrevio() {
+           Map parametros  =new HashMap();
+           parametros.put(";where", "o.formulario");
+    }
+
     public Formulario getPrevio() {
         return previo;
     }
@@ -171,20 +207,20 @@ public class FormularioBean {
         this.empresa = empresa;
     }
 
-    public List<DatosExamen> getPrevioList() {
-        return previoList;
+    public List<DatosExamen> getPrevioRespuestaList() {
+        return previoRespuestaList;
     }
 
-    public void setPrevioList(List<DatosExamen> previoList) {
-        this.previoList = previoList;
+    public void setPrevioRespuestaList(List<DatosExamen> previoRespuestaList) {
+        this.previoRespuestaList = previoRespuestaList;
     }
 
-    public List<DatosExamen> getConsultoriaList() {
-        return consultoriaList;
+    public List<DatosExamen> getConsultoriaRespuestaList() {
+        return consultoriaRespuestaList;
     }
 
-    public void setConsultoriaList(List<DatosExamen> consultoriaList) {
-        this.consultoriaList = consultoriaList;
+    public void setConsultoriaRespuestaList(List<DatosExamen> consultoriaRespuestaList) {
+        this.consultoriaRespuestaList = consultoriaRespuestaList;
     }
 
     public Pantalla getPantallaDatos() {

@@ -127,7 +127,7 @@ public class Pais implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Pais[ id=" + id + " ]";
     }
     
 }

@@ -14,6 +14,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -48,9 +50,10 @@ public class Pregunta implements Serializable {
     @Column(length = 2147483647)
     private String codigo;
     @OneToMany(mappedBy = "pregunta", fetch = FetchType.EAGER)
-    private List<DatosFormulario> datosFormularioList;
-    @OneToMany(mappedBy = "pregunta", fetch = FetchType.EAGER)
-    private List<DatosExamen> datosExamenList;
+    private List<ApartadoPregunta> apartadoPreguntaList;
+    @JoinColumn(name = "grupo_respuesta", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private GrupoRespuesta grupoRespuesta;
 
     public Pregunta() {
     }
@@ -88,20 +91,20 @@ public class Pregunta implements Serializable {
         this.codigo = codigo;
     }
 
-    public List<DatosFormulario> getDatosFormularioList() {
-        return datosFormularioList;
+    public List<ApartadoPregunta> getApartadoPreguntaList() {
+        return apartadoPreguntaList;
     }
 
-    public void setDatosFormularioList(List<DatosFormulario> datosFormularioList) {
-        this.datosFormularioList = datosFormularioList;
+    public void setApartadoPreguntaList(List<ApartadoPregunta> apartadoPreguntaList) {
+        this.apartadoPreguntaList = apartadoPreguntaList;
     }
 
-    public List<DatosExamen> getDatosExamenList() {
-        return datosExamenList;
+    public GrupoRespuesta getGrupoRespuesta() {
+        return grupoRespuesta;
     }
 
-    public void setDatosExamenList(List<DatosExamen> datosExamenList) {
-        this.datosExamenList = datosExamenList;
+    public void setGrupoRespuesta(GrupoRespuesta grupoRespuesta) {
+        this.grupoRespuesta = grupoRespuesta;
     }
 
     @Override

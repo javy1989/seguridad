@@ -45,7 +45,7 @@ public class Apartado implements Serializable {
     @Column(length = 2147483647)
     private String codigo;
     @OneToMany(mappedBy = "apartado", fetch = FetchType.EAGER)
-    private List<DatosFormulario> datosFormularioList;
+    private List<FormularioApartado> formularioApartadoList;
 
     public Apartado() {
     }
@@ -78,12 +78,12 @@ public class Apartado implements Serializable {
         this.codigo = codigo;
     }
 
-    public List<DatosFormulario> getDatosFormularioList() {
-        return datosFormularioList;
+    public List<FormularioApartado> getFormularioApartadoList() {
+        return formularioApartadoList;
     }
 
-    public void setDatosFormularioList(List<DatosFormulario> datosFormularioList) {
-        this.datosFormularioList = datosFormularioList;
+    public void setFormularioApartadoList(List<FormularioApartado> formularioApartadoList) {
+        this.formularioApartadoList = formularioApartadoList;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class Apartado implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Apartado[ id=" + id + " ]";
     }
     
 }

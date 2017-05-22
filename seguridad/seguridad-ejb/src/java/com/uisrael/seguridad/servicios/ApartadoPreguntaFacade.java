@@ -5,7 +5,7 @@
  */
 package com.uisrael.seguridad.servicios;
 
-import com.uisrael.seguridad.entidades.Grupo;
+import com.uisrael.seguridad.entidades.ApartadoPregunta;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author ricardo
  */
 @Stateless
-public class GrupoFacade extends AbstractFacade<Grupo> {
+public class ApartadoPreguntaFacade extends AbstractFacade<ApartadoPregunta> {
 
     @PersistenceContext(unitName = "seguridad-ejbPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class GrupoFacade extends AbstractFacade<Grupo> {
         return em;
     }
 
-    public GrupoFacade() {
-        super(Grupo.class);
+    public ApartadoPreguntaFacade() {
+        super(ApartadoPregunta.class);
     }
     
 }

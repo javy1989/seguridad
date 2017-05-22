@@ -56,9 +56,9 @@ public class Formulario implements Serializable {
     @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<Examen> examenList;
     @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
-    private List<DatosFormulario> datosFormularioList;
-    @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<Recomendacion> recomendacionList;
+    @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
+    private List<FormularioApartado> formularioApartadoList;
 
     public Formulario() {
     }
@@ -123,20 +123,20 @@ public class Formulario implements Serializable {
         this.examenList = examenList;
     }
 
-    public List<DatosFormulario> getDatosFormularioList() {
-        return datosFormularioList;
-    }
-
-    public void setDatosFormularioList(List<DatosFormulario> datosFormularioList) {
-        this.datosFormularioList = datosFormularioList;
-    }
-
     public List<Recomendacion> getRecomendacionList() {
         return recomendacionList;
     }
 
     public void setRecomendacionList(List<Recomendacion> recomendacionList) {
         this.recomendacionList = recomendacionList;
+    }
+
+    public List<FormularioApartado> getFormularioApartadoList() {
+        return formularioApartadoList;
+    }
+
+    public void setFormularioApartadoList(List<FormularioApartado> formularioApartadoList) {
+        this.formularioApartadoList = formularioApartadoList;
     }
 
     @Override

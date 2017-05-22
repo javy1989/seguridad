@@ -26,11 +26,11 @@ import javax.validation.constraints.Size;
  * @author ricardo
  */
 @Entity
-@Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
+@Table(name = "grupo_respuesta", catalog = "seguridad", schema = "public", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"id"})})
 @NamedQueries({
-    @NamedQuery(name = "Grupo.findAll", query = "SELECT g FROM Grupo g")})
-public class Grupo implements Serializable {
+    @NamedQuery(name = "GrupoRespuesta.findAll", query = "SELECT g FROM GrupoRespuesta g")})
+public class GrupoRespuesta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,14 +45,14 @@ public class Grupo implements Serializable {
     @Column(length = 2147483647)
     private String codigo;
     @OneToMany(mappedBy = "grupoRespuesta", fetch = FetchType.EAGER)
-    private List<DatosFormulario> datosFormularioList;
+    private List<Pregunta> preguntaList;
     @OneToMany(mappedBy = "grupo", fetch = FetchType.EAGER)
     private List<Respuesta> respuestaList;
 
-    public Grupo() {
+    public GrupoRespuesta() {
     }
 
-    public Grupo(Integer id) {
+    public GrupoRespuesta(Integer id) {
         this.id = id;
     }
 
@@ -80,12 +80,12 @@ public class Grupo implements Serializable {
         this.codigo = codigo;
     }
 
-    public List<DatosFormulario> getDatosFormularioList() {
-        return datosFormularioList;
+    public List<Pregunta> getPreguntaList() {
+        return preguntaList;
     }
 
-    public void setDatosFormularioList(List<DatosFormulario> datosFormularioList) {
-        this.datosFormularioList = datosFormularioList;
+    public void setPreguntaList(List<Pregunta> preguntaList) {
+        this.preguntaList = preguntaList;
     }
 
     public List<Respuesta> getRespuestaList() {
@@ -106,10 +106,10 @@ public class Grupo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Grupo)) {
+        if (!(object instanceof GrupoRespuesta)) {
             return false;
         }
-        Grupo other = (Grupo) object;
+        GrupoRespuesta other = (GrupoRespuesta) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +118,7 @@ public class Grupo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Grupo[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.GrupoRespuesta[ id=" + id + " ]";
     }
     
 }

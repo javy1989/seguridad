@@ -15,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -42,11 +41,12 @@ public class DetalleExamen implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(precision = 5, scale = 2)
     private BigDecimal valor;
-    @JoinColumns({
-        @JoinColumn(name = "apartado", referencedColumnName = "dato_formulario")
-        , @JoinColumn(name = "examen", referencedColumnName = "examen")})
+    @JoinColumn(name = "examen", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private DatosExamen datosExamen;
+    private Examen examen;
+    @JoinColumn(name = "formulario_apartado", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private FormularioApartado formularioApartado;
 
     public DetalleExamen() {
     }
@@ -71,12 +71,20 @@ public class DetalleExamen implements Serializable {
         this.valor = valor;
     }
 
-    public DatosExamen getDatosExamen() {
-        return datosExamen;
+    public Examen getExamen() {
+        return examen;
     }
 
-    public void setDatosExamen(DatosExamen datosExamen) {
-        this.datosExamen = datosExamen;
+    public void setExamen(Examen examen) {
+        this.examen = examen;
+    }
+
+    public FormularioApartado getFormularioApartado() {
+        return formularioApartado;
+    }
+
+    public void setFormularioApartado(FormularioApartado formularioApartado) {
+        this.formularioApartado = formularioApartado;
     }
 
     @Override

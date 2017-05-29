@@ -15,7 +15,7 @@
                         <h:form id="form">
                             <p:dataGrid id="formularios" 
                                         value="#{inicio.formularioList}"
-                                        var="formulario"
+                                        var="frm"
                                         columns="1"
                                         layout="grid"
                                         rows="12"
@@ -28,11 +28,11 @@
                                     Consultorias
                                 </f:facet>
 
-                                <p:panel header="#{formulario.nombre}" style="text-align: center;">
+                                <p:panel header="#{frm.nombre}" style="text-align: center;">
                                     <h:panelGrid columns="1" style="width: 100%">
-                                        <h:outputText value="#{formulario.descripcion}"/>
+                                        <h:outputText value="#{frm.descripcion}"/>
                                         <p:commandButton icon="fa fa-calendar-o" styleClass="OrangeButton RaisedButton" action="#{inicio.irFormulario()}">
-                                            <f:setPropertyActionListener value="#{formulario}" target="#{inicio.formulario}"/>
+                                            <f:setPropertyActionListener value="#{frm}" target="#{inicio.formulario}"/>
                                         </p:commandButton>
                                     </h:panelGrid>
                                 </p:panel>

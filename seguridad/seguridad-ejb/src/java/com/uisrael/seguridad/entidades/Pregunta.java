@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -49,10 +49,10 @@ public class Pregunta implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
-    @OneToMany(mappedBy = "pregunta", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pregunta", fetch = FetchType.LAZY)
     private List<ApartadoPregunta> apartadoPreguntaList;
     @JoinColumn(name = "grupo_respuesta", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GrupoRespuesta grupoRespuesta;
 
     public Pregunta() {
@@ -129,7 +129,7 @@ public class Pregunta implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Pregunta[ id=" + id + " ]";
+        return nombre;
     }
     
 }

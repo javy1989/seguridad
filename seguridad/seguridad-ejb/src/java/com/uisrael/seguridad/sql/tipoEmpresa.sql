@@ -3134,3 +3134,4 @@ update tipo_empresa  set estado  =true where id in (select id from tipo_empresa 
 
 --select * from tipo_empresa  where nombre like '%tac%'
 --select len(nombre)from tipo_empresa where id=1255
+select * from tipo_empresa where estado=true

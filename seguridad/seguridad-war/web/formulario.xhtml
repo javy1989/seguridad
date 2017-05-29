@@ -53,15 +53,27 @@
                                 </h:panelGrid>
                                 <p/>
                                 <center>
-                                    <p:commandButton action="#{formulario.continuarPrevio()}" icon="ui-icon ui-icon-next"/>    
+                                    <p:commandButton action="#{formulario.continuarPrevio()}" icon="ui-icon ui-icon-next" update="@form"/>    
                                 </center>
 
                             </p:fieldset>
                             <p:fieldset legend="#{formulario.previo.nombre}" rendered="#{formulario.pantallaPrevio.mostrar}">
                                 <p:panelGrid>
-                                    <c:forEach var="previo" items="#{formulario.previoList}">
+                                    <c:forEach var="previo" items="#{formulario.previoRespuestaList}">
                                         <p:row>
-
+                                            <p:column>
+                                                <h:outputText value="#{previo.apartadoPregunta.apartado.apartado}"/>
+                                                <c:forEach var="pregunta" items="#{previo.apartadoPregunta.pregunta.apartadoPreguntaList}">
+                                                    <p:row>
+                                                        <p:column>
+                                                            <h:outputText value="#{previo.apartadoPregunta.pregunta}"/>
+                                                            <p:selectOneRadio value="#{previo.respuesta}">
+                                                                <f:selectItems value="#{previo.apartadoPregunta.pregunta.grupoRespuesta.respuestaList}"/>
+                                                            </p:selectOneRadio>
+                                                        </p:column>
+                                                    </p:row>
+                                                </c:forEach>
+                                            </p:column>
                                         </p:row>
                                     </c:forEach>
                                 </p:panelGrid>

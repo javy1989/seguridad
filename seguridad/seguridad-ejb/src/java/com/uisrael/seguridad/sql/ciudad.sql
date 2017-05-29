@@ -1,4 +1,4 @@
-﻿insert into ciudad   (pais,provincia,nombre,estado)
+INSERT﻿ INTO ciudad   (pais,provincia,nombre,estado)
 values
 (117,1,'Cuenca',TRUE),
 (117,2,'Guaranda',TRUE),

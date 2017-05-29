@@ -15,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -26,7 +28,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -57,6 +59,11 @@ public class Formulario implements Serializable {
     private List<Examen> examenList;
     @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<Recomendacion> recomendacionList;
+    @OneToMany(mappedBy = "anterior", fetch = FetchType.EAGER)
+    private List<Formulario> formularioList;
+    @JoinColumn(name = "anterior", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Formulario anterior;
     @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
     private List<FormularioApartado> formularioApartadoList;
 
@@ -131,6 +138,22 @@ public class Formulario implements Serializable {
         this.recomendacionList = recomendacionList;
     }
 
+    public List<Formulario> getFormularioList() {
+        return formularioList;
+    }
+
+    public void setFormularioList(List<Formulario> formularioList) {
+        this.formularioList = formularioList;
+    }
+
+    public Formulario getAnterior() {
+        return anterior;
+    }
+
+    public void setAnterior(Formulario anterior) {
+        this.anterior = anterior;
+    }
+
     public List<FormularioApartado> getFormularioApartadoList() {
         return formularioApartadoList;
     }
@@ -161,7 +184,7 @@ public class Formulario implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Formulario[ id=" + id + " ]";
+        return nombre;
     }
     
 }

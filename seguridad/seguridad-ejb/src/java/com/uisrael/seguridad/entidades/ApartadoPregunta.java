@@ -26,7 +26,7 @@ import javax.persistence.UniqueConstraint;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(name = "apartado_pregunta", catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -47,15 +47,15 @@ public class ApartadoPregunta implements Serializable {
     @Column(name = "valor_pregunta", precision = 5, scale = 2)
     private BigDecimal valorPregunta;
     @JoinColumn(name = "apartado", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private FormularioApartado apartado;
     @JoinColumn(name = "pregunta", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pregunta pregunta;
     @JoinColumn(name = "respuesta", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Respuesta respuesta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "apartadoPregunta1", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "apartadoPregunta", fetch = FetchType.LAZY)
     private List<DatosExamen> datosExamenList;
 
     public ApartadoPregunta() {
@@ -151,7 +151,7 @@ public class ApartadoPregunta implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.ApartadoPregunta[ id=" + id + " ]";
+        return orden + ".-" + pregunta;
     }
-    
+
 }

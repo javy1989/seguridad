@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(name = "grupo_respuesta", catalog = "seguridad", schema = "public", uniqueConstraints = {

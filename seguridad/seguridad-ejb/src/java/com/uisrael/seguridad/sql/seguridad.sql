@@ -245,6 +245,7 @@ create table FORMULARIO (
    FECHA                DATE                 null,
    CODIGO               TEXT                 null,
    ESTADO               BOOL                 null,
+   ANTERIOR             INT4                 null,
    constraint PK_FORMULARIO primary key (ID)
 );
 
@@ -594,3 +595,8 @@ alter table RESPUESTA
    add constraint FK_RESPUEST_RELATIONS_GRUPO_RE foreign key (GRUPO)
       references GRUPO_RESPUESTA (ID)
       on delete restrict on update restrict;
+
+alter table FORMULARIO
+  add constraint FK_FRM_FRMANT foreign key (ANTERIOR)
+  references FORMULARIO(ID)
+  on delete restrict on update restrict;

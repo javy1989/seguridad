@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(name = "recomendacion_examen", catalog = "seguridad", schema = "public", uniqueConstraints = {

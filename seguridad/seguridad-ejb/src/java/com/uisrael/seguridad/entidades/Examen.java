@@ -30,7 +30,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -55,16 +55,16 @@ public class Examen implements Serializable {
     @Column(precision = 5, scale = 2)
     private BigDecimal total;
     @JoinColumn(name = "empresa", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Empresa empresa;
     @JoinColumn(name = "formulario", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Formulario formulario;
-    @OneToMany(mappedBy = "examen", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "examen", fetch = FetchType.LAZY)
     private List<RecomendacionExamen> recomendacionExamenList;
-    @OneToMany(mappedBy = "examen", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "examen", fetch = FetchType.LAZY)
     private List<DetalleExamen> detalleExamenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen1", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen", fetch = FetchType.LAZY)
     private List<DatosExamen> datosExamenList;
 
     public Examen() {

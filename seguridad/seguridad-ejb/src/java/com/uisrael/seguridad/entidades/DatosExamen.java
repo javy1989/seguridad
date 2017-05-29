@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(name = "datos_examen", catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -36,13 +36,13 @@ public class DatosExamen implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @JoinColumn(name = "apartado_pregunta", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private ApartadoPregunta apartadoPregunta1;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private ApartadoPregunta apartadoPregunta;
     @JoinColumn(name = "examen", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    private Examen examen1;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Examen examen;
     @JoinColumn(name = "respuesta", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Respuesta respuesta;
 
     public DatosExamen() {
@@ -72,21 +72,22 @@ public class DatosExamen implements Serializable {
         this.fecha = fecha;
     }
 
-    public ApartadoPregunta getApartadoPregunta1() {
-        return apartadoPregunta1;
+    public ApartadoPregunta getApartadoPregunta() {
+        return apartadoPregunta;
     }
 
-    public void setApartadoPregunta1(ApartadoPregunta apartadoPregunta1) {
-        this.apartadoPregunta1 = apartadoPregunta1;
+    public void setApartadoPregunta(ApartadoPregunta apartadoPregunta) {
+        this.apartadoPregunta = apartadoPregunta;
     }
 
-    public Examen getExamen1() {
-        return examen1;
+    public Examen getExamen() {
+        return examen;
     }
 
-    public void setExamen1(Examen examen1) {
-        this.examen1 = examen1;
+    public void setExamen(Examen examen) {
+        this.examen = examen;
     }
+
 
     public Respuesta getRespuesta() {
         return respuesta;

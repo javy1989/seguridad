@@ -10,11 +10,15 @@ import com.plancurricular.utilitarios.Pantalla;
 import com.uisrael.seguridad.entidades.ApartadoPregunta;
 import com.uisrael.seguridad.entidades.Ciudad;
 import com.uisrael.seguridad.entidades.DatosExamen;
+import com.uisrael.seguridad.entidades.DatosExamenPK;
 import com.uisrael.seguridad.entidades.Empresa;
 import com.uisrael.seguridad.entidades.Examen;
 import com.uisrael.seguridad.entidades.Formulario;
+import com.uisrael.seguridad.entidades.FormularioApartado;
 import com.uisrael.seguridad.entidades.Pais;
 import com.uisrael.seguridad.entidades.Provincia;
+import com.uisrael.seguridad.entidades.Respuesta;
+import com.uisrael.seguridad.entidades.TipoEmpresa;
 import com.uisrael.seguridad.servicios.CiudadFacade;
 import com.uisrael.seguridad.servicios.FormularioFacade;
 import com.uisrael.seguridad.servicios.PaisFacade;
@@ -23,6 +27,7 @@ import com.uisrael.seguridad.servicios.TipoEmpresaFacade;
 import com.uisrael.seguridad.utilidades.Combos;
 import com.uisrael.seguridad.utilidades.MostrarMensaje;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -61,8 +66,8 @@ public class FormularioBean {
     private Empresa empresa;
     private List<DatosExamen> previoRespuestaList;
     private List<DatosExamen> consultoriaRespuestaList;
-    private List<ApartadoPregunta> previoList;
-    private List<ApartadoPregunta> consultoriaList;
+    private List<FormularioApartado> previoList;
+    private List<FormularioApartado> consultoriaList;
 
     public FormularioBean() {
     }
@@ -130,6 +135,9 @@ public class FormularioBean {
         return ejbCiudad.find(id);
     }
 
+    public TipoEmpresa traerTipoEmpresa(int id) throws ConsultarException{
+        return  ejbTipoEmpresa.find(id);
+    }
     public SelectItem[] getCiudadItem() throws ConsultarException {
         if (empresa.getCiudad() != null) {
             if (empresa.getCiudad().getProvincia() != null) {
@@ -142,12 +150,43 @@ public class FormularioBean {
         return null;
     }
 
-    public String continuarPrevio() {
-        if (empresa.getCiudad() == null) {
-            MostrarMensaje.error("Informacion", "Se debe ingresar la ciudad");
-        }
+    public String continuarPrevio() throws ConsultarException {
 
+        if (empresa.getCiudad() == null) {
+            MostrarMensaje.error("Informacion", "Se debe seleccinar la ciudad");
+        }
+        previo = ejbFormulario.find(consultoria.getAnterior().getId());
+        previoList = previo.getFormularioApartadoList();
+        if (previoList == null) {
+            MostrarMensaje.error("Informacion", "No existe configuracion asignada");
+        }
+        examen = new Examen();
+        examen.setEmpresa(empresa);
+        previoRespuestaList = new LinkedList<>();
+        previoList.forEach((apartado) -> {
+            apartado.getApartadoPreguntaList().forEach((pregunta) -> {
+                DatosExamen dexamen = new DatosExamen();
+                DatosExamenPK pk = new DatosExamenPK();
+                pk.setApartadoPregunta(pregunta.getId());
+                dexamen.setApartadoPregunta(pregunta);
+                dexamen.setDatosExamenPK(pk);
+                dexamen.setExamen(examen);
+                Respuesta res = new Respuesta();
+                dexamen.setRespuesta(res);
+                previoRespuestaList.add(dexamen);
+            });
+        });
+        irPantalla(0);
         return null;
+    }
+
+    public void irPantalla(int tipo) {
+        switch (tipo) {
+            case 0:
+                pantallaDatos.cancelar();
+                pantallaPrevio.insertar();
+                break;
+        }
     }
 
     /**
@@ -171,8 +210,8 @@ public class FormularioBean {
     }
 
     private void traeDatoFormularioPrevio() {
-           Map parametros  =new HashMap();
-           parametros.put(";where", "o.formulario");
+        Map parametros = new HashMap();
+        parametros.put(";where", "o.formulario");
     }
 
     public Formulario getPrevio() {

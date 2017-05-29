@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -119,7 +119,7 @@ public class Provincia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Provincia[ id=" + id + " ]";
+        return nombre;
     }
     
 }

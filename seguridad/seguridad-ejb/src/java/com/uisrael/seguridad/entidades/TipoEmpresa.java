@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author ricardo
+ * @author desarrollo
  */
 @Entity
 @Table(name = "tipo_empresa", catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -128,7 +128,7 @@ public class TipoEmpresa implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.TipoEmpresa[ id=" + id + " ]";
+        return nombre;
     }
     
 }

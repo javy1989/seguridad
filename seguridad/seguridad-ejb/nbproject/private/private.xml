@@ -3,28 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/RecomendacionExamenFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/FormularioApartadoFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/FormularioFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/EmpresaFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/ApartadoPregunta.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/RecomendacionFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/CiudadFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/PaisFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/DatosExamenFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/RespuestaFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/DetalleExamenFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/GrupoRespuestaFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/FormularioApartado.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/ApartadoPreguntaFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/Pregunta.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/GrupoRespuesta.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/Respuesta.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/PreguntaFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/ExamenFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/TipoEmpresaFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/ApartadoFacade.java</file>
-            <file>file:/C:/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/ProvinciaFacade.java</file>
+            <file>file:/home/desarrollo/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/FormularioApartado.java</file>
+            <file>file:/home/desarrollo/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/DatosExamen.java</file>
+            <file>file:/home/desarrollo/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/Pregunta.java</file>
         </group>
     </open-files>
 </project-private>

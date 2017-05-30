@@ -23,6 +23,7 @@ import com.uisrael.seguridad.servicios.CiudadFacade;
 import com.uisrael.seguridad.servicios.FormularioFacade;
 import com.uisrael.seguridad.servicios.PaisFacade;
 import com.uisrael.seguridad.servicios.ProvinciaFacade;
+import com.uisrael.seguridad.servicios.RespuestaFacade;
 import com.uisrael.seguridad.servicios.TipoEmpresaFacade;
 import com.uisrael.seguridad.utilidades.Combos;
 import com.uisrael.seguridad.utilidades.MostrarMensaje;
@@ -56,6 +57,8 @@ public class FormularioBean {
     private ProvinciaFacade ejbProvincia;
     @EJB
     private CiudadFacade ejbCiudad;
+    @EJB
+    private RespuestaFacade ejbRespuesta;
 
     private Pantalla pantallaDatos = new Pantalla();
     private Pantalla pantallaPrevio = new Pantalla();
@@ -135,9 +138,14 @@ public class FormularioBean {
         return ejbCiudad.find(id);
     }
 
-    public TipoEmpresa traerTipoEmpresa(int id) throws ConsultarException{
-        return  ejbTipoEmpresa.find(id);
+    public TipoEmpresa traerTipoEmpresa(int id) throws ConsultarException {
+        return ejbTipoEmpresa.find(id);
     }
+
+    public Respuesta traeRespuesta(int id) throws ConsultarException {
+        return ejbRespuesta.find(id);
+    }
+
     public SelectItem[] getCiudadItem() throws ConsultarException {
         if (empresa.getCiudad() != null) {
             if (empresa.getCiudad().getProvincia() != null) {

@@ -10,11 +10,11 @@
             <div class="Container10"/>
             <div class="Container80 Responsive100">
                 <div class="Card ui-fluid">                    
-                    <div class="Container20"/>
-                    <div class="Container60 ">
+                    <div class="Container10"/>
+                    <div class="Container80 ">
                         <h:form id="form">
                             <p:fieldset rendered="#{formulario.pantallaDatos.mostrar}" legend="Formulario de Datos Empresa">
-                                <h:panelGrid columns="2" style="width: 100%" >
+                                <h:panelGrid columns="2" style="width: 80%" >
                                     <h:outputLabel value="Tipo de Empresa:" for="tipoEmpresa"/>
                                     <p:selectOneMenu id="tipoEmpresa" value="#{formulario.empresa.tipoEmpresa}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Tipo empresa necesaria">
                                         <f:selectItems value="#{formulario.tipoEmpresaItem}"/>
@@ -52,35 +52,38 @@
                                     <p:inputText id="direccion" value="#{formulario.empresa.direccion}"/>
                                 </h:panelGrid>
                                 <p/>
-                                <center>
-                                    <p:commandButton action="#{formulario.continuarPrevio()}" icon="ui-icon ui-icon-next" update="@form"/>    
-                                </center>
+                                <div class="TexAlCenter ">
+                                    <p:commandButton action="#{formulario.continuarPrevio()}" icon="ui-icon ui-autocomplete-token" value="Continuar" update="@form" />    
+                                </div>
 
                             </p:fieldset>
                             <p:fieldset legend="#{formulario.previo.nombre}" rendered="#{formulario.pantallaPrevio.mostrar}">
-                                <p:panelGrid>
-                                    <c:forEach var="previo" items="#{formulario.previoRespuestaList}">
-                                        <p:row>
-                                            <p:column>
-                                                <h:outputText value="#{previo.apartadoPregunta.apartado.apartado}"/>
-                                                <c:forEach var="pregunta" items="#{previo.apartadoPregunta.pregunta.apartadoPreguntaList}">
-                                                    <p:row>
-                                                        <p:column>
-                                                            <h:outputText value="#{previo.apartadoPregunta.pregunta}"/>
-                                                            <p:selectOneRadio value="#{previo.respuesta}">
-                                                                <f:selectItems value="#{previo.apartadoPregunta.pregunta.grupoRespuesta.respuestaList}"/>
-                                                            </p:selectOneRadio>
-                                                        </p:column>
-                                                    </p:row>
-                                                </c:forEach>
-                                            </p:column>
-                                        </p:row>
-                                    </c:forEach>
-                                </p:panelGrid>
+
+                                <c:forEach var="previo" items="#{formulario.previoRespuestaList}">
+                                    <p:row>
+                                        <p:column colspan="10">
+                                            <c:forEach var="pregunta" items="#{previo.apartadoPregunta.pregunta.apartadoPreguntaList}">
+                                                <p:row>
+                                                    <p:column colspan="10">
+                                                        <h:outputText value="#{previo.apartadoPregunta.pregunta}" style="font-weight: bold; font-family: helvetica;color: black;    "/>
+                                                        <div class="EmptyBox10"/>
+                                                        <p:selectOneRadio value="#{previo.respuesta}" style="padding: 0 0 0 20px;">
+                                                            <f:selectItems value="#{previo.apartadoPregunta.pregunta.grupoRespuesta.respuestaList}"/>
+                                                        </p:selectOneRadio>
+                                                    </p:column>
+                                                </p:row>
+                                            </c:forEach>
+                                        </p:column>
+                                    </p:row>
+                                </c:forEach>
+                                <p/>
+                                <center>
+                                    <p:commandButton value="Continuar"/>
+                                </center>
                             </p:fieldset>
                         </h:form>
                     </div>
-                    <div class="Container20"/>
+                    <div class="Container10"/>
 
                 </div>
 

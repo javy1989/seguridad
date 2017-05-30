@@ -11,7 +11,7 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
-            <link rel="shortcut icon" href="#{request.contextPath}/resources/images/soft.png" type="image/png" />
+            <link rel="shortcut icon" href="#{request.contextPath}/resources/images/consultoria.png" type="image/jpg" />
         </f:facet>
         <title>Sistema de Test</title>
 
@@ -20,12 +20,17 @@
         <ui:insert name="head" />
     </h:head>
 
-    <h:body styleClass="BlueBody"> 
-        <div class="EmptyBox20"/>
-        <div class="TexAlCenter">
-            <h:graphicImage name="logo.png" library="images" />
-        </div>
-        <div class="EmptyBox20"/>
+    <h:body styleClass="BlueBody">
+        <header>
+            <div class="Container100">
+                <h:graphicImage name="sistema.png" library="images" width="100%" height="110" styleClass="BordRad10"/>
+            </div> 
+            <div class="MarTop20 " style="position: absolute;left: 20px;">
+                <b><font color="white" class="Fs40" face="serif">Consultoria-Auditoria</font></b><br/>
+                <font style="text-shadow: white 0.2em 0.2em 0.1em" color="navy">Sistema de Control de Fraude</font>
+            </div>
+        </header>
+
         <!--<p:growl id="growl" showDetail="true" widgetVar="growl" globalOnly="false" life="3000" autoUpdate="true"/>-->
         <ui:insert name="content"/>
         <h:outputStylesheet name="css/core-layout.css" library="volt-layout" />

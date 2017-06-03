@@ -7,6 +7,7 @@ package com.uisrael.seguridad.bean;
 
 import com.plancurricular.excepciones.ConsultarException;
 import com.plancurricular.utilitarios.Pantalla;
+import com.uisrael.seguridad.entidades.Apartado;
 import com.uisrael.seguridad.entidades.ApartadoPregunta;
 import com.uisrael.seguridad.entidades.Ciudad;
 import com.uisrael.seguridad.entidades.DatosExamen;
@@ -65,12 +66,14 @@ public class FormularioBean {
     private Pantalla pantallaConsultoria = new Pantalla();
     private Formulario previo;
     private Formulario consultoria;
-    private Examen examen;
+    private Examen examenPrevio;
+    private Examen examenConsultoria;
     private Empresa empresa;
     private List<DatosExamen> previoRespuestaList;
     private List<DatosExamen> consultoriaRespuestaList;
     private List<FormularioApartado> previoList;
     private List<FormularioApartado> consultoriaList;
+    private Apartado apartadoActua;
 
     public FormularioBean() {
     }
@@ -168,23 +171,80 @@ public class FormularioBean {
         if (previoList == null) {
             MostrarMensaje.error("Informacion", "No existe configuracion asignada");
         }
-        examen = new Examen();
-        examen.setEmpresa(empresa);
+        examenPrevio = new Examen();
+        examenPrevio.setEmpresa(empresa);
         previoRespuestaList = new LinkedList<>();
-        previoList.forEach((apartado) -> {
-            apartado.getApartadoPreguntaList().forEach((pregunta) -> {
+        for (FormularioApartado apartado : previoList) {
+            for (ApartadoPregunta pregunta : apartado.getApartadoPreguntaList()) {
                 DatosExamen dexamen = new DatosExamen();
                 DatosExamenPK pk = new DatosExamenPK();
                 pk.setApartadoPregunta(pregunta.getId());
                 dexamen.setApartadoPregunta(pregunta);
                 dexamen.setDatosExamenPK(pk);
-                dexamen.setExamen(examen);
+                dexamen.setExamen(examenPrevio);
                 Respuesta res = new Respuesta();
                 dexamen.setRespuesta(res);
                 previoRespuestaList.add(dexamen);
-            });
-        });
+            }
+
+        }/*
+         previoList.forEach((apartado) -> {
+         apartado.getApartadoPreguntaList().forEach((pregunta) -> {
+         DatosExamen dexamen = new DatosExamen();
+         DatosExamenPK pk = new DatosExamenPK();
+         pk.setApartadoPregunta(pregunta.getId());
+         dexamen.setApartadoPregunta(pregunta);
+         dexamen.setDatosExamenPK(pk);
+         dexamen.setExamen(examenPrevio);
+         Respuesta res = new Respuesta();
+         dexamen.setRespuesta(res);
+         previoRespuestaList.add(dexamen);
+         });
+         });*/
+
         irPantalla(0);
+        return null;
+    }
+
+    public String continuarConsultoria() {
+        if (consultoria == null) {
+            return null;
+        }
+        examenConsultoria = new Examen();
+        examenConsultoria.setEmpresa(empresa);
+        consultoriaRespuestaList = new LinkedList<>();
+        consultoriaList = consultoria.getFormularioApartadoList();
+        for (FormularioApartado apartado : consultoriaList) {
+            for (ApartadoPregunta pregunta : apartado.getApartadoPreguntaList()) {
+                DatosExamen dexamen = new DatosExamen();
+                DatosExamenPK pk = new DatosExamenPK();
+                pk.setApartadoPregunta(pregunta.getId());
+                dexamen.setApartadoPregunta(pregunta);
+                dexamen.setDatosExamenPK(pk);
+                dexamen.setExamen(examenConsultoria);
+                Respuesta res = new Respuesta();
+                dexamen.setRespuesta(res);
+                consultoriaRespuestaList.add(dexamen);
+            }
+
+        }
+        /*
+         consultoriaList.forEach((apartado) -> {
+         apartado.getApartadoPreguntaList().forEach((pregunta) -> {
+         DatosExamen dexamen = new DatosExamen();
+         DatosExamenPK pk = new DatosExamenPK();
+         pk.setApartadoPregunta(pregunta.getId());
+         dexamen.setApartadoPregunta(pregunta);
+         dexamen.setDatosExamenPK(pk);
+         dexamen.setExamen(examenConsultoria);
+         Respuesta res = new Respuesta();
+         dexamen.setRespuesta(res);
+         consultoriaRespuestaList.add(dexamen);
+         });
+         });
+         */
+        irPantalla(1);
+
         return null;
     }
 
@@ -193,6 +253,10 @@ public class FormularioBean {
             case 0:
                 pantallaDatos.cancelar();
                 pantallaPrevio.insertar();
+                break;
+            case 1:
+                pantallaPrevio.cancelar();
+                pantallaConsultoria.insertar();
                 break;
         }
     }
@@ -238,12 +302,20 @@ public class FormularioBean {
         this.consultoria = consultoria;
     }
 
-    public Examen getExamen() {
-        return examen;
+    public Examen getExamenPrevio() {
+        return examenPrevio;
     }
 
-    public void setExamen(Examen examen) {
-        this.examen = examen;
+    public void setExamenPrevio(Examen examenPrevio) {
+        this.examenPrevio = examenPrevio;
+    }
+
+    public Examen getExamenConsultoria() {
+        return examenConsultoria;
+    }
+
+    public void setExamenConsultoria(Examen examenConsultoria) {
+        this.examenConsultoria = examenConsultoria;
     }
 
     public Empresa getEmpresa() {

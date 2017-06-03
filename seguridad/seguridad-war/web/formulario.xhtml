@@ -58,7 +58,6 @@
 
                             </p:fieldset>
                             <p:fieldset legend="#{formulario.previo.nombre}" rendered="#{formulario.pantallaPrevio.mostrar}">
-
                                 <c:forEach var="previo" items="#{formulario.previoRespuestaList}">
                                     <p:row>
                                         <p:column colspan="10">
@@ -78,8 +77,30 @@
                                 </c:forEach>
                                 <p/>
                                 <center>
-                                    <p:commandButton value="Continuar"/>
+                                    <p:commandButton value="Continuar" action="#{formulario.continuarConsultoria()}" update="@form"/>
                                 </center>
+                            </p:fieldset>
+                            <p:fieldset legend="#{formulario.consultoria.nombre}" rendered="#{formulario.pantallaConsultoria.mostrar}">
+                                <p:panelGrid style="border: none;width: 100%">
+                                    <c:forEach items="#{formulario.consultoriaRespuestaList}" var="consultoria">
+                                        <p:row>
+                                            <p:column>
+                                                <h:outputText value="#{consultoria.apartadoPregunta.apartado.apartado}"/>
+                                                <c:forEach var="pregunta" items="#{consultoria.apartadoPregunta.pregunta.apartadoPreguntaList}">
+                                                    <p:row>
+                                                        <p:column>
+                                                            <h:outputText value="#{consultoria.apartadoPregunta.pregunta}" style="font-weight: bold; font-family: helvetica;color: black;    "/>
+                                                            <div class="EmptyBox10"/>
+                                                            <p:selectOneRadio value="#{consultoria.respuesta}" style="padding: 0 0 0 20px;">
+                                                                <f:selectItems value="#{consultoria.apartadoPregunta.pregunta.grupoRespuesta.respuestaList}"/>
+                                                            </p:selectOneRadio>
+                                                        </p:column>
+                                                    </p:row>
+                                                </c:forEach>
+                                            </p:column>
+                                        </p:row>
+                                    </c:forEach>
+                                </p:panelGrid>
                             </p:fieldset>
                         </h:form>
                     </div>

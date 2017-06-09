@@ -6,12 +6,15 @@
 package com.uisrael.seguridad.bean;
 
 import com.plancurricular.excepciones.ConsultarException;
+import com.plancurricular.excepciones.GrabarException;
+import com.plancurricular.excepciones.InsertarException;
 import com.plancurricular.utilitarios.Pantalla;
 import com.uisrael.seguridad.entidades.Apartado;
 import com.uisrael.seguridad.entidades.ApartadoPregunta;
 import com.uisrael.seguridad.entidades.Ciudad;
 import com.uisrael.seguridad.entidades.DatosExamen;
 import com.uisrael.seguridad.entidades.DatosExamenPK;
+import com.uisrael.seguridad.entidades.DetalleExamen;
 import com.uisrael.seguridad.entidades.Empresa;
 import com.uisrael.seguridad.entidades.Examen;
 import com.uisrael.seguridad.entidades.Formulario;
@@ -21,17 +24,27 @@ import com.uisrael.seguridad.entidades.Provincia;
 import com.uisrael.seguridad.entidades.Respuesta;
 import com.uisrael.seguridad.entidades.TipoEmpresa;
 import com.uisrael.seguridad.servicios.CiudadFacade;
+import com.uisrael.seguridad.servicios.DatosExamenFacade;
+import com.uisrael.seguridad.servicios.DetalleExamenFacade;
+import com.uisrael.seguridad.servicios.EmpresaFacade;
+import com.uisrael.seguridad.servicios.ExamenFacade;
 import com.uisrael.seguridad.servicios.FormularioFacade;
 import com.uisrael.seguridad.servicios.PaisFacade;
 import com.uisrael.seguridad.servicios.ProvinciaFacade;
 import com.uisrael.seguridad.servicios.RespuestaFacade;
 import com.uisrael.seguridad.servicios.TipoEmpresaFacade;
 import com.uisrael.seguridad.utilidades.Combos;
+import com.uisrael.seguridad.utilidades.General;
 import com.uisrael.seguridad.utilidades.MostrarMensaje;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -60,6 +73,14 @@ public class FormularioBean {
     private CiudadFacade ejbCiudad;
     @EJB
     private RespuestaFacade ejbRespuesta;
+    @EJB
+    private EmpresaFacade ejbEmpresa;
+    @EJB
+    private ExamenFacade ejbExamen;
+    @EJB
+    private DatosExamenFacade ejbDatosExamen;
+    @EJB
+    private DetalleExamenFacade ejbDetalleExamen;
 
     private Pantalla pantallaDatos = new Pantalla();
     private Pantalla pantallaPrevio = new Pantalla();
@@ -74,6 +95,7 @@ public class FormularioBean {
     private List<FormularioApartado> previoList;
     private List<FormularioApartado> consultoriaList;
     private Apartado apartadoActua;
+    private List<DetalleExamen> detalleExamen;
 
     public FormularioBean() {
     }
@@ -228,21 +250,6 @@ public class FormularioBean {
             }
 
         }
-        /*
-         consultoriaList.forEach((apartado) -> {
-         apartado.getApartadoPreguntaList().forEach((pregunta) -> {
-         DatosExamen dexamen = new DatosExamen();
-         DatosExamenPK pk = new DatosExamenPK();
-         pk.setApartadoPregunta(pregunta.getId());
-         dexamen.setApartadoPregunta(pregunta);
-         dexamen.setDatosExamenPK(pk);
-         dexamen.setExamen(examenConsultoria);
-         Respuesta res = new Respuesta();
-         dexamen.setRespuesta(res);
-         consultoriaRespuestaList.add(dexamen);
-         });
-         });
-         */
         irPantalla(1);
 
         return null;
@@ -281,9 +288,113 @@ public class FormularioBean {
         }
     }
 
-    private void traeDatoFormularioPrevio() {
-        Map parametros = new HashMap();
-        parametros.put(";where", "o.formulario");
+    public String guardar() {
+        try {
+            ejbEmpresa.create(empresa, null);
+            guardaExamenPrevio();
+            guardaDatosExamenPrevio();
+            guardaConsultoria();
+            guardaDetalleExamen();
+        } catch (InsertarException | GrabarException ex) {
+            Logger.getLogger(FormularioBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    private void guardaExamenPrevio() throws InsertarException {
+        examenPrevio.setEmpresa(empresa);
+        examenPrevio.setEstado(true);
+        examenPrevio.setFecha(Calendar.getInstance().getTime());
+        examenPrevio.setFormulario(consultoria.getAnterior());
+        examenPrevio.setTotal(BigDecimal.ZERO);
+        examenPrevio.setCodigo(generaCodigo(consultoria.getAnterior()));
+        ejbExamen.create(examenPrevio, null);
+    }
+
+    private void guardaDatosExamenPrevio() throws InsertarException {
+        for (DatosExamen dato : previoRespuestaList) {
+            dato.getDatosExamenPK().setApartadoPregunta(dato.getApartadoPregunta().getId());
+            dato.getDatosExamenPK().setExamen(examenPrevio.getId());
+            dato.setApartadoPregunta(dato.getApartadoPregunta());
+            dato.setExamen(examenPrevio);
+            dato.setFecha(Calendar.getInstance().getTime());
+            ejbDatosExamen.create(dato, null);
+        }
+    }
+
+    private void guardaConsultoria() throws InsertarException, GrabarException {
+        examenConsultoria.setEmpresa(empresa);
+        examenConsultoria.setEstado(true);
+        examenConsultoria.setFecha(Calendar.getInstance().getTime());
+        examenConsultoria.setFormulario(consultoria);
+        examenConsultoria.setCodigo(generaCodigo(consultoria));
+        ejbExamen.create(examenConsultoria, null);
+        BigDecimal total = BigDecimal.valueOf(procesaConsultoriaTotal());
+        total.setScale(0, RoundingMode.DOWN);
+        examenConsultoria.setTotal(total);
+        ejbExamen.edit(examenConsultoria, null);
+
+    }
+
+    private String generaCodigo(Formulario formulario) {
+        return General.documento(formulario.getId());
+    }
+
+    private double procesaConsultoriaTotal() throws InsertarException {
+        double total_respuesta = 0;
+
+        double total = 0;
+        Apartado apartadoActual;
+        Apartado apartadoAnterior = null;
+        detalleExamen = new LinkedList<>();
+        DetalleExamen detalle;
+        for (DatosExamen dato : consultoriaRespuestaList) {
+            System.out.println("apartado-->" + dato.getApartadoPregunta().getApartado().getId());
+            apartadoActual = dato.getApartadoPregunta().getApartado().getApartado();
+            if (apartadoAnterior == null) {
+                total_respuesta += dato.getRespuesta().getValor().doubleValue();
+            } else {
+                if (apartadoActual.equals(apartadoAnterior)) {
+                    total_respuesta += dato.getRespuesta().getValor().doubleValue();
+                } else {
+                    System.out.println("verficando con " + dato.getApartadoPregunta().getApartado().getId());
+                    System.out.println("sumando apartados total-->" + total_respuesta);
+                    detalle = new DetalleExamen();
+                    detalle.setExamen(examenConsultoria);
+                    detalle.setFormularioApartado(dato.getApartadoPregunta().getApartado());
+                    detalle.setValor(valorApartado(total_respuesta, dato.getApartadoPregunta().getApartado().getApartadoPreguntaList().size()));
+                    detalleExamen.add(detalle);
+                    total += detalle.getValor().doubleValue();
+                    total_respuesta = 0;
+                    apartadoActual = null;
+                }
+            }
+
+            apartadoAnterior = apartadoActual;
+            dato.getDatosExamenPK().setApartadoPregunta(dato.getApartadoPregunta().getId());
+            dato.getDatosExamenPK().setExamen(examenConsultoria.getId());
+            dato.setApartadoPregunta(dato.getApartadoPregunta());
+            ejbDatosExamen.create(dato, null);
+        }
+
+        return total;
+    }
+
+    private BigDecimal valorApartado(double total_respuesta, int size) {
+        System.out.println("sacando porcentaje total respuesta-->" + total_respuesta + "size" + size);
+        double total_apartado;
+        total_apartado = total_respuesta;
+        total_apartado = ((total_apartado * 100) / size);
+        BigDecimal valor = BigDecimal.valueOf(total_apartado);
+        valor.setScale(0, RoundingMode.DOWN);
+        return valor;
+    }
+
+    private void guardaDetalleExamen() throws InsertarException {
+        for (DetalleExamen detalle : detalleExamen) {
+            ejbDetalleExamen.create(detalle, null);
+
+        }
     }
 
     public Formulario getPrevio() {

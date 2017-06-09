@@ -6,6 +6,7 @@
 package com.uisrael.seguridad.entidades;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -49,6 +50,8 @@ public class Respuesta implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
+    @Column(name = "valor", precision = 5, scale = 2)
+    private BigDecimal valor;
     @OneToMany(mappedBy = "respuesta", fetch = FetchType.EAGER)
     private List<ApartadoPregunta> apartadoPreguntaList;
     @OneToMany(mappedBy = "respuesta", fetch = FetchType.EAGER)
@@ -93,6 +96,13 @@ public class Respuesta implements Serializable {
         this.codigo = codigo;
     }
 
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
+    }
     public List<ApartadoPregunta> getApartadoPreguntaList() {
         return apartadoPreguntaList;
     }
@@ -141,5 +151,5 @@ public class Respuesta implements Serializable {
     public String toString() {
         return nombre;
     }
-    
+
 }

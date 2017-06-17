@@ -94,7 +94,6 @@ public class FormularioBean {
     private List<DatosExamen> consultoriaRespuestaList;
     private List<FormularioApartado> previoList;
     private List<FormularioApartado> consultoriaList;
-    private Apartado apartadoActua;
     private List<DetalleExamen> detalleExamen;
 
     public FormularioBean() {
@@ -209,20 +208,7 @@ public class FormularioBean {
                 previoRespuestaList.add(dexamen);
             }
 
-        }/*
-         previoList.forEach((apartado) -> {
-         apartado.getApartadoPreguntaList().forEach((pregunta) -> {
-         DatosExamen dexamen = new DatosExamen();
-         DatosExamenPK pk = new DatosExamenPK();
-         pk.setApartadoPregunta(pregunta.getId());
-         dexamen.setApartadoPregunta(pregunta);
-         dexamen.setDatosExamenPK(pk);
-         dexamen.setExamen(examenPrevio);
-         Respuesta res = new Respuesta();
-         dexamen.setRespuesta(res);
-         previoRespuestaList.add(dexamen);
-         });
-         });*/
+        }
 
         irPantalla(0);
         return null;
@@ -298,7 +284,7 @@ public class FormularioBean {
         } catch (InsertarException | GrabarException ex) {
             Logger.getLogger(FormularioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return "/resultado.jsf?faces-redirect=true&cod="+examenConsultoria.getCodigo();
     }
 
     private void guardaExamenPrevio() throws InsertarException {
@@ -330,6 +316,9 @@ public class FormularioBean {
         examenConsultoria.setCodigo(generaCodigo(consultoria));
         ejbExamen.create(examenConsultoria, null);
         BigDecimal total = BigDecimal.valueOf(procesaConsultoriaTotal());
+        int numeroApartados=examenConsultoria.getFormulario().getFormularioApartadoList().size();
+        System.out.println("numero de apartados"+numeroApartados);
+        total=total.divide(new BigDecimal(numeroApartados));
         total.setScale(0, RoundingMode.DOWN);
         examenConsultoria.setTotal(total);
         ejbExamen.edit(examenConsultoria, null);
@@ -344,29 +333,29 @@ public class FormularioBean {
         double total_respuesta = 0;
 
         double total = 0;
-        Apartado apartadoActual;
-        Apartado apartadoAnterior = null;
+        FormularioApartado apartadoActual;
+        FormularioApartado apartadoAnterior = null;
         detalleExamen = new LinkedList<>();
         DetalleExamen detalle;
         for (DatosExamen dato : consultoriaRespuestaList) {
             System.out.println("apartado-->" + dato.getApartadoPregunta().getApartado().getId());
-            apartadoActual = dato.getApartadoPregunta().getApartado().getApartado();
+            apartadoActual = dato.getApartadoPregunta().getApartado();
             if (apartadoAnterior == null) {
                 total_respuesta += dato.getRespuesta().getValor().doubleValue();
             } else {
                 if (apartadoActual.equals(apartadoAnterior)) {
                     total_respuesta += dato.getRespuesta().getValor().doubleValue();
                 } else {
-                    System.out.println("verficando con " + dato.getApartadoPregunta().getApartado().getId());
+                    System.out.println("verficando con " + apartadoAnterior.getApartado().getId());
                     System.out.println("sumando apartados total-->" + total_respuesta);
                     detalle = new DetalleExamen();
                     detalle.setExamen(examenConsultoria);
-                    detalle.setFormularioApartado(dato.getApartadoPregunta().getApartado());
-                    detalle.setValor(valorApartado(total_respuesta, dato.getApartadoPregunta().getApartado().getApartadoPreguntaList().size()));
+                    detalle.setFormularioApartado(apartadoAnterior);
+                    detalle.setValor(valorApartado(total_respuesta, apartadoAnterior.getApartadoPreguntaList().size()));
                     detalleExamen.add(detalle);
                     total += detalle.getValor().doubleValue();
                     total_respuesta = 0;
-                    apartadoActual = null;
+                    total_respuesta += dato.getRespuesta().getValor().doubleValue();
                 }
             }
 
@@ -375,6 +364,16 @@ public class FormularioBean {
             dato.getDatosExamenPK().setExamen(examenConsultoria.getId());
             dato.setApartadoPregunta(dato.getApartadoPregunta());
             ejbDatosExamen.create(dato, null);
+        }
+
+        if (apartadoAnterior != null) {
+            System.out.println("sumando ultimo valor de apartado"+apartadoAnterior.getApartado().getId());
+            detalle = new DetalleExamen();
+            detalle.setExamen(examenConsultoria);
+            detalle.setFormularioApartado(apartadoAnterior);
+            detalle.setValor(valorApartado(total_respuesta, apartadoAnterior.getApartadoPreguntaList().size()));
+            detalleExamen.add(detalle);
+            total += detalle.getValor().doubleValue();
         }
 
         return total;

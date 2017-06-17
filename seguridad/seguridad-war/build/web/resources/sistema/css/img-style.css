@@ -40,3 +40,17 @@ tr.group,
 tr.group:hover {
     background-color: #ddd !important;
 }
+
+
+.progressverde .ui-progressbar-value {    
+    background: #00b713 !important;    
+}
+
+.progresstomate .ui-progressbar-value {    
+    background: orange !important; 
+}
+
+
+.progressrojo .ui-progressbar-value {    
+    background: red !important;
+}

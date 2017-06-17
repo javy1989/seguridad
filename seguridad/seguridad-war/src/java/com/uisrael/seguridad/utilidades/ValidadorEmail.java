@@ -35,6 +35,8 @@ public class ValidadorEmail implements Validator {
             Object value) throws ValidatorException {
 
         matcher = pattern.matcher(value.toString());
+        String email=value.toString();
+        
         if (!matcher.matches()) {
 
             FacesMessage msg =

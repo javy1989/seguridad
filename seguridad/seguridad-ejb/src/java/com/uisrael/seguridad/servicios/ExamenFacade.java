@@ -9,6 +9,7 @@ import com.uisrael.seguridad.entidades.Examen;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +29,20 @@ public class ExamenFacade extends AbstractFacade<Examen> {
     public ExamenFacade() {
         super(Examen.class);
     }
-    
+
+    /**
+     * busca examen por codigo que se envia como argumento de la funcion 
+     * @param codigo
+     * @return Examen
+     */
+    public Examen buscarExamenPorCodigo(String codigo) {
+        try {
+            Query q = em.createQuery("select e from Examen as e where e.codigo= :codigo");
+            q.setParameter("codigo", codigo);
+            return (Examen) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
 }

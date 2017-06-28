@@ -22,6 +22,7 @@ import com.uisrael.seguridad.entidades.FormularioApartado;
 import com.uisrael.seguridad.entidades.Pais;
 import com.uisrael.seguridad.entidades.Provincia;
 import com.uisrael.seguridad.entidades.Respuesta;
+import com.uisrael.seguridad.entidades.Tamanio;
 import com.uisrael.seguridad.entidades.Tipo;
 import com.uisrael.seguridad.servicios.ActividadFacade;
 import com.uisrael.seguridad.servicios.CiudadFacade;
@@ -34,13 +35,17 @@ import com.uisrael.seguridad.servicios.FormularioFacade;
 import com.uisrael.seguridad.servicios.PaisFacade;
 import com.uisrael.seguridad.servicios.ProvinciaFacade;
 import com.uisrael.seguridad.servicios.RespuestaFacade;
+import com.uisrael.seguridad.servicios.TamanioFacade;
 import com.uisrael.seguridad.servicios.TipoFacade;
 import com.uisrael.seguridad.utilidades.Combos;
 import com.uisrael.seguridad.utilidades.General;
 import com.uisrael.seguridad.utilidades.MostrarMensaje;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -89,6 +94,8 @@ public class FormularioBean {
     private TipoFacade ejbTipo;
     @EJB
     private CorreoFacade ejbCorreo;
+    @EJB
+    private TamanioFacade ejbTamanio;
 
     private Pantalla pantallaDatos = new Pantalla();
     private Pantalla pantallaPrevio = new Pantalla();
@@ -134,6 +141,12 @@ public class FormularioBean {
                 getCiudadItem();
                 break;
         }
+    }
+
+    public SelectItem[] getTamanioItem() throws ConsultarException {
+        Map parametros = new HashMap();
+        parametros.put(";where", "o.estado=true");
+        return Combos.getSelectItems(ejbTamanio.encontarParametros(parametros), true);
     }
 
     public SelectItem[] getTipoItem() throws ConsultarException {
@@ -202,6 +215,10 @@ public class FormularioBean {
 
     public Tipo traeTipo(int id) throws ConsultarException {
         return ejbTipo.find(id);
+    }
+
+    public Tamanio traeTamanio(int id) throws ConsultarException {
+        return ejbTamanio.find(id);
     }
 
     public SelectItem[] getCiudadItem() throws ConsultarException {
@@ -315,11 +332,17 @@ public class FormularioBean {
             guardaDatosExamenPrevio();
             guardaConsultoria();
             guardaDetalleExamen();
-            ejbCorreo.enviarCorreo(empresa.getMail(), "Consultoria",ejbCorreo.htmlExamenNuevo(examenConsultoria)); 
+            URL url = this.getClass().getResource("/com/uisrael/seguridad/doc/nuevo-examen.html");
+            File file = new File(url.getPath());
+            String html = ejbCorreo.htmlContentEmail(file).replace("$CODIGO", examenConsultoria.getCodigo());
+            ejbCorreo.enviarCorreo(empresa.getMail(), "Consultoria", html);
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/seguridad-war/");
         } catch (InsertarException | GrabarException | MessagingException | UnsupportedEncodingException ex) {
             Logger.getLogger(FormularioBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FormularioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "/resultado.jsf?faces-redirect=true&cod=" + examenConsultoria.getCodigo();
+        return null;
     }
 
     private void guardaExamenPrevio() throws InsertarException {

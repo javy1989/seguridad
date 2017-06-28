@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
 
 /**
  *
- * @author desarrollo
+ * @author Ricardo.Bravo
  */
 @Entity
 @Table(name = "recomendacion_examen", catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -30,7 +30,6 @@ import javax.persistence.UniqueConstraint;
 @NamedQueries({
     @NamedQuery(name = "RecomendacionExamen.findAll", query = "SELECT r FROM RecomendacionExamen r")})
 public class RecomendacionExamen implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

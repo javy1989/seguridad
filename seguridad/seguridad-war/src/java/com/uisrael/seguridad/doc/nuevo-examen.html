@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body{
+                background-color: white;
+            }
+            #contenido{
+                width: 500px;
+                margin: 0 auto;
+            }
+            h1{
+                margin: 10px auto;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-size: 15px;
+            }
+            .cabecera{ 
+                background-color: #5b7989;
+                height: 50px;
+            }
+            footer{
+                background-color: #5b7989;
+                height: 20px;
+            }
+            .enlace {
+                margin: 10px;
+                border-radius: 10px 10px;
+                width: 500px;
+                text-align: center;
+            }
+
+            a{    font-family: verdana, arial, sans-serif;
+                  font-size: 10pt;
+                  font-weight: bold;
+                  padding: 4px; 
+
+                  background-color: dodgerblue;
+                  border-radius: 10px 10px;
+                  color: #666666; 
+                  text-decoration: none; 
+            }       
+        </style>
+    </head>
+    <body>
+        <div id="contenido">
+            <div class="cabecera">
+                <b><font color="white"  face="serif">Consultoria-Auditoria</font></b><br/>
+                <font color="white">Sistema de Autoevalucion Etica-Empresarial</font>
+            </div>
+            <h1>Resultados de informe:</h1>
+            <p>
+                Estimad@ Usuari@, en el siguiente enlace ya tiene disponible para consulta del informe de diagn&oacutestico solicitado.
+            </p>
+            <center>
+                <a href="http://localhost:8080/seguridad-war/resultado.jsf?faces-redirect=true&cod=$CODIGO" target="_blank">Enlace de Visualizacion</a>
+            </center>
+            <br/>
+            <footer>
+                <span>Mensaje enviado automaticamente</span>
+            </footer>
+        </div>
+    </body>
+</html>

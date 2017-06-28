@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author desarrollo
+ * @author Ricardo.Bravo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -36,7 +36,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Formulario.findAll", query = "SELECT f FROM Formulario f")})
 public class Formulario implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

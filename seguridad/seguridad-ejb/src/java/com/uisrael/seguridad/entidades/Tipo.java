@@ -24,14 +24,13 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author desarrollo
+ * @author Ricardo.Bravo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Tipo.findAll", query = "SELECT t FROM Tipo t")})
 public class Tipo implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

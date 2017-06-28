@@ -4,6 +4,10 @@
  */
 package com.uisrael.seguridad.utilidades;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
@@ -35,13 +39,28 @@ public class ValidadorEmail implements Validator {
             Object value) throws ValidatorException {
 
         matcher = pattern.matcher(value.toString());
-        String email=value.toString();
-        
-        if (!matcher.matches()) {
-
-            FacesMessage msg =
-                    new FacesMessage("Falla en validaciòn de email.",
-                    "Formato de email incorrecto");
+        String email = value.toString();
+        if (matcher.matches()) {
+            try {
+                String[] cadenaMail = email.split("@");
+                String dominio = cadenaMail[1];
+                System.out.println("validando dominio-->" + dominio);
+                InetAddress inetHost = InetAddress.getByName(dominio);
+                String hostName = inetHost.getHostName();
+                System.out.println("The host name was: " + hostName);
+                System.out.println("The hosts IP address is: " + inetHost.getHostAddress());
+            } catch (UnknownHostException ex) {
+                Logger.getLogger(ValidadorEmail.class.getName()).log(Level.SEVERE, null, ex);
+                FacesMessage msg
+                        = new FacesMessage("Falla en validaciòn de email.",
+                                "Nombre de dominio invalido");
+                msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+                throw new ValidatorException(msg);
+            }
+        } else {
+            FacesMessage msg
+                    = new FacesMessage("Falla en validaciòn de email.",
+                            "Formato de email incorrecto");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }

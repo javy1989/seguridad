@@ -5,7 +5,11 @@
  */
 package com.uisrael.seguridad.servicios;
 
-import com.uisrael.seguridad.entidades.Examen;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,81 +56,25 @@ public class CorreoFacade {
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
         Multipart multipart = new MimeMultipart("alternative");
         MimeBodyPart textPart = new MimeBodyPart();
-        String textContent = "Bienvenid@";
-        textPart.setText(textContent);
+        textPart.setText(body);
         MimeBodyPart htmlPart = new MimeBodyPart();
-        String htmlContent = body;
-        htmlPart.setContent(htmlContent, "text/html;  charset=utf-8");
+        htmlPart.setContent(body, "text/html;  charset=utf-8");
         multipart.addBodyPart(textPart);
         multipart.addBodyPart(htmlPart);
         message.setContent(multipart);
+        message.setSubject("Información");
         Transport.send(message);
     }
 
-    public String htmlExamenNuevo(Examen examen) {
-        String html;
-        html = "<!DOCTYPE html>"
-                + "<html>"
-                + "    <head>"
-                + "        <style>"
-                + "         body{"
-                + "             background-color: white;"
-                + "         }"
-                + "         #contenido{"
-                + "             width: 500px;"
-                + "             margin: 0 auto;"
-                + "         }"
-                + "         h1{"
-                + "             margin: 10 auto;"
-                + "             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"
-                + "             font-size: 15px;"
-                + "         }"
-                + "         div[class *='cab']{ "
-                + "             background-color: #5b7989;"
-                + "             height: 50px;"
-                + "         }"
-                + "         footer{"
-                + "             background-color: #5b7989;"
-                + "             height: 20px;"
-                + "         }"
-                + "         .enlace {"
-                + "             margin: 10px;"
-                + "             border-radius: 10px 10px;"
-                + "             width: 500px;"
-                + "             text-align: center;"
-                + "         }"
-                + ""
-                + ".  a {    font-family: verdana, arial, sans-serif;"
-                + "     font-size: 10pt;"
-                + "     font-weight: bold;"
-                + "     padding: 4px; "
-                + "     background-color: dodgerblue;"
-                + "     border-radius: 10px 10px;"
-                + "     color: #666666; "
-                + "     text-decoration: none; "
-                + "}       "
-                + "        </style>"
-                + "    </head> "
-                + "    <body>"
-                + "        <div id=\"contenido\">"
-                + "            <div class=\"cabecera\">"
-                + "                <b><font color=\"white\"  face=\"serif\">Consultoria-Auditoria</font></b><br/>"
-                + "                <font color=\"white\">Sistema de Autoevalucion Etica-Empresarial</font>"
-                + "            </div>"
-                + "            <h1>Resultados de informe:</h1>"
-                + "            <p>"
-                + "            Estimad@ Usuari@, en el siguiente enlace ya tiene disponible para consulta del informe de diagnóstico solicitado."
-                + "            </p>"
-                + "            <center>"
-                + "                   <a href=\"localhost:8080/seguridad-war/resultado.jsf?faces-redirect=true&cod=\\"+examen.getCodigo()+"\" target=\"_blank\">Enlace de Visualizacion</a>"
-                + "            </center>"
-                + "<br></br>"
-                + "            <footer>"
-                + "                <span>Mensaje enviado automaticamente</span>"
-                + "            </footer>"
-                + "        </div>"
-                + "    </body>"
-                + "</html>";
-        return html;
+    public String htmlContentEmail(File file) throws FileNotFoundException, IOException {
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        StringBuilder sb = new StringBuilder();
+        String line = br.readLine();
+        while (line != null) {
+            sb.append(line);
+            sb.append(System.lineSeparator());
+            line = br.readLine();
+        }
+        return sb.toString();
     }
 }

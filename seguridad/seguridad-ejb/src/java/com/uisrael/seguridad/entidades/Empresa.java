@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author desarrollo
+ * @author Ricardo.Bravo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -33,7 +33,6 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Empresa.findAll", query = "SELECT e FROM Empresa e")})
 public class Empresa implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,6 +59,9 @@ public class Empresa implements Serializable {
     @JoinColumn(name = "ciudad", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Ciudad ciudad;
+    @JoinColumn(name = "tamanio", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Tamanio tamanio;
 
     public Empresa() {
     }
@@ -130,6 +132,14 @@ public class Empresa implements Serializable {
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
+    }
+
+    public Tamanio getTamanio() {
+        return tamanio;
+    }
+
+    public void setTamanio(Tamanio tamanio) {
+        this.tamanio = tamanio;
     }
 
     @Override

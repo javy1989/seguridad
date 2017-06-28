@@ -44,9 +44,9 @@ public class GrupoRespuesta implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
-    @OneToMany(mappedBy = "grupoRespuesta", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "grupoRespuesta", fetch = FetchType.LAZY)
     private List<Pregunta> preguntaList;
-    @OneToMany(mappedBy = "grupo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY)
     private List<Respuesta> respuestaList;
 
     public GrupoRespuesta() {

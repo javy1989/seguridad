@@ -20,7 +20,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -46,16 +45,15 @@ public class FormularioApartado implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor_apartado", precision = 5, scale = 2)
     private BigDecimal valorApartado;
-    @OrderBy("apartado asc")
-    @OneToMany(mappedBy = "apartado", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "apartado", fetch = FetchType.LAZY)
     private List<ApartadoPregunta> apartadoPreguntaList;
-    @OneToMany(mappedBy = "formularioApartado", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "formularioApartado", fetch = FetchType.LAZY)
     private List<DetalleExamen> detalleExamenList;
     @JoinColumn(name = "apartado", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Apartado apartado;
     @JoinColumn(name = "formulario", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Formulario formulario;
 
     public FormularioApartado() {

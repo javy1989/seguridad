@@ -52,10 +52,10 @@ public class Recomendacion implements Serializable {
     private BigDecimal valorInicio;
     @Column(name = "valor_fin", precision = 4, scale = 2)
     private BigDecimal valorFin;
-    @OneToMany(mappedBy = "recomendacion", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "recomendacion", fetch = FetchType.LAZY)
     private List<RecomendacionExamen> recomendacionExamenList;
     @JoinColumn(name = "formulario", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Formulario formulario;
 
     public Recomendacion() {
@@ -143,7 +143,7 @@ public class Recomendacion implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Recomendacion[ id=" + id + " ]";
+        return nombre;
     }
     
 }

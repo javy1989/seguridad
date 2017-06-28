@@ -88,7 +88,6 @@ public class DatosExamen implements Serializable {
         this.examen = examen;
     }
 
-
     public Respuesta getRespuesta() {
         return respuesta;
     }
@@ -121,5 +120,5 @@ public class DatosExamen implements Serializable {
     public String toString() {
         return "com.uisrael.seguridad.entidades.DatosExamen[ datosExamenPK=" + datosExamenPK + " ]";
     }
-    
+
 }

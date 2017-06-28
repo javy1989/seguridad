@@ -151,7 +151,7 @@ public class ApartadoPregunta implements Serializable {
 
     @Override
     public String toString() {
-        return orden + ".-" + pregunta;
+        return "com.uisrael.seguridad.entidades.ApartadoPregunta[ id=" + id + " ]";
     }
-
+    
 }

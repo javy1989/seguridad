@@ -275,15 +275,16 @@
     <ui:define name="content">
         <div class="Container100">
             <div class="Card">
-                <div class="CardTopic">Resultados de #{resultado.examen.formulario.nombre}</div>
+                <h:outputLabel class="CardTopic" value="Resultados de #{resultado.examen.formulario.nombre}" rendered="#{resultado.pantallaResultado.mostrar}"/>
+                <h:outputLabel class="CardTopic" value="No se encontraron resultados para la peticion" rendered="#{!resultado.pantallaResultado.mostrar}"/>
                 <div class="SeparatorFull"></div>
                 <div class="Container100">
-                    <h:form>
+                    <h:form rendered="#{resultado.pantallaResultado.mostrar}">
                         <p:accordionPanel multiple="false">
                             <p:tab title="Datos de Empresa:">
                                 <h:panelGrid columns="2" style="width: 80%" >
                                     <h:outputLabel value="Tipo de Empresa:" for="tipoEmpresa"/>
-                                    <h:outputText value="#{resultado.examen.empresa.tipoEmpresa.nombre}"/>
+                                    <h:outputText value="#{resultado.examen.empresa.actividad.nombre}"/>
 
 
                                     <h:outputLabel value="Pais:" for="pais"/>

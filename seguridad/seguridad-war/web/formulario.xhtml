@@ -15,9 +15,22 @@
                         <h:form id="form">
                             <p:fieldset rendered="#{formulario.pantallaDatos.mostrar}" legend="Formulario de Datos Empresa">
                                 <h:panelGrid columns="2" style="width: 80%" >
-                                    <h:outputLabel value="Tipo de Empresa:" for="tipoEmpresa"/>
-                                    <p:selectOneMenu id="tipoEmpresa" value="#{formulario.empresa.tipoEmpresa}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Tipo empresa necesaria">
-                                        <f:selectItems value="#{formulario.tipoEmpresaItem}"/>
+                                    <h:outputLabel value="Tipo de Empresa:" for="tipo"/>
+                                    <p:selectOneMenu id="tipo" value="#{formulario.empresa.actividad.sector.sector}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Tipo de empresa necesaria">
+                                        <f:selectItems value="#{formulario.tipoItem}" />
+                                        <p:ajax event="change" immediate="true" update="sector"/>
+                                    </p:selectOneMenu>
+                                    
+                                    
+                                    <h:outputLabel value="Sector de Empresa:" for="sector"/>
+                                    <p:selectOneMenu id="sector" value="#{formulario.empresa.actividad.sector}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Actividad de empresa necesaria">
+                                        <f:selectItems value="#{formulario.sectorItem}"/>
+                                        <p:ajax event="change" immediate="true" update="actividad"/>
+                                    </p:selectOneMenu>
+                                    
+                                    <h:outputLabel value="Actividad de Empresa:" for="actividad"/>
+                                    <p:selectOneMenu id="actividad" value="#{formulario.empresa.actividad}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Actividad de empresa necesaria">
+                                        <f:selectItems value="#{formulario.actividadItem}"/>
                                     </p:selectOneMenu>
 
                                     <h:outputLabel value="Pais:" for="pais"/>

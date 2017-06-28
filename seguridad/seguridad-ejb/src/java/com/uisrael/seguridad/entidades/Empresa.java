@@ -52,14 +52,14 @@ public class Empresa implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String direccion;
-    @OneToMany(mappedBy = "empresa", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY)
     private List<Examen> examenList;
+    @JoinColumn(name = "actividad", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Actividad actividad;
     @JoinColumn(name = "ciudad", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Ciudad ciudad;
-    @JoinColumn(name = "tipo_empresa", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private TipoEmpresa tipoEmpresa;
 
     public Empresa() {
     }
@@ -116,20 +116,20 @@ public class Empresa implements Serializable {
         this.examenList = examenList;
     }
 
+    public Actividad getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(Actividad actividad) {
+        this.actividad = actividad;
+    }
+
     public Ciudad getCiudad() {
         return ciudad;
     }
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
-    }
-
-    public TipoEmpresa getTipoEmpresa() {
-        return tipoEmpresa;
-    }
-
-    public void setTipoEmpresa(TipoEmpresa tipoEmpresa) {
-        this.tipoEmpresa = tipoEmpresa;
     }
 
     @Override

@@ -55,16 +55,16 @@ public class Formulario implements Serializable {
     @Column(length = 2147483647)
     private String codigo;
     private Boolean estado;
-    @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "formulario", fetch = FetchType.LAZY)
     private List<Examen> examenList;
-    @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "formulario", fetch = FetchType.LAZY)
     private List<Recomendacion> recomendacionList;
-    @OneToMany(mappedBy = "anterior", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "anterior", fetch = FetchType.LAZY)
     private List<Formulario> formularioList;
     @JoinColumn(name = "anterior", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Formulario anterior;
-    @OneToMany(mappedBy = "formulario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "formulario", fetch = FetchType.LAZY)
     private List<FormularioApartado> formularioApartadoList;
 
     public Formulario() {

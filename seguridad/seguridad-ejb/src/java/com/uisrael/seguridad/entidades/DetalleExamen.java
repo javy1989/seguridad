@@ -42,10 +42,10 @@ public class DetalleExamen implements Serializable {
     @Column(precision = 5, scale = 2)
     private BigDecimal valor;
     @JoinColumn(name = "examen", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Examen examen;
     @JoinColumn(name = "formulario_apartado", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private FormularioApartado formularioApartado;
 
     public DetalleExamen() {

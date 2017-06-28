@@ -50,14 +50,15 @@ public class Respuesta implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
-    @Column(name = "valor", precision = 5, scale = 2)
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(precision = 5, scale = 2)
     private BigDecimal valor;
-    @OneToMany(mappedBy = "respuesta", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "respuesta", fetch = FetchType.LAZY)
     private List<ApartadoPregunta> apartadoPreguntaList;
-    @OneToMany(mappedBy = "respuesta", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "respuesta", fetch = FetchType.LAZY)
     private List<DatosExamen> datosExamenList;
     @JoinColumn(name = "grupo", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GrupoRespuesta grupo;
 
     public Respuesta() {
@@ -103,6 +104,7 @@ public class Respuesta implements Serializable {
     public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
+
     public List<ApartadoPregunta> getApartadoPreguntaList() {
         return apartadoPreguntaList;
     }
@@ -151,5 +153,5 @@ public class Respuesta implements Serializable {
     public String toString() {
         return nombre;
     }
-
+    
 }

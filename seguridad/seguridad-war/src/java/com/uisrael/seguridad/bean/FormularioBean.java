@@ -9,7 +9,7 @@ import com.plancurricular.excepciones.ConsultarException;
 import com.plancurricular.excepciones.GrabarException;
 import com.plancurricular.excepciones.InsertarException;
 import com.plancurricular.utilitarios.Pantalla;
-import com.uisrael.seguridad.entidades.Apartado;
+import com.uisrael.seguridad.entidades.Actividad;
 import com.uisrael.seguridad.entidades.ApartadoPregunta;
 import com.uisrael.seguridad.entidades.Ciudad;
 import com.uisrael.seguridad.entidades.DatosExamen;
@@ -22,8 +22,10 @@ import com.uisrael.seguridad.entidades.FormularioApartado;
 import com.uisrael.seguridad.entidades.Pais;
 import com.uisrael.seguridad.entidades.Provincia;
 import com.uisrael.seguridad.entidades.Respuesta;
-import com.uisrael.seguridad.entidades.TipoEmpresa;
+import com.uisrael.seguridad.entidades.Tipo;
+import com.uisrael.seguridad.servicios.ActividadFacade;
 import com.uisrael.seguridad.servicios.CiudadFacade;
+import com.uisrael.seguridad.servicios.CorreoFacade;
 import com.uisrael.seguridad.servicios.DatosExamenFacade;
 import com.uisrael.seguridad.servicios.DetalleExamenFacade;
 import com.uisrael.seguridad.servicios.EmpresaFacade;
@@ -32,10 +34,11 @@ import com.uisrael.seguridad.servicios.FormularioFacade;
 import com.uisrael.seguridad.servicios.PaisFacade;
 import com.uisrael.seguridad.servicios.ProvinciaFacade;
 import com.uisrael.seguridad.servicios.RespuestaFacade;
-import com.uisrael.seguridad.servicios.TipoEmpresaFacade;
+import com.uisrael.seguridad.servicios.TipoFacade;
 import com.uisrael.seguridad.utilidades.Combos;
 import com.uisrael.seguridad.utilidades.General;
 import com.uisrael.seguridad.utilidades.MostrarMensaje;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Calendar;
@@ -51,6 +54,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -64,7 +68,7 @@ public class FormularioBean {
     @EJB
     private FormularioFacade ejbFormulario;
     @EJB
-    private TipoEmpresaFacade ejbTipoEmpresa;
+    private ActividadFacade ejbActividad;
     @EJB
     private PaisFacade ejbPais;
     @EJB
@@ -81,6 +85,10 @@ public class FormularioBean {
     private DatosExamenFacade ejbDatosExamen;
     @EJB
     private DetalleExamenFacade ejbDetalleExamen;
+    @EJB
+    private TipoFacade ejbTipo;
+    @EJB
+    private CorreoFacade ejbCorreo;
 
     private Pantalla pantallaDatos = new Pantalla();
     private Pantalla pantallaPrevio = new Pantalla();
@@ -108,6 +116,8 @@ public class FormularioBean {
             if (consultoria != null) {
                 empresa = new Empresa();
                 empresa.setCiudad(new Ciudad());
+                empresa.setActividad(new Actividad());
+                empresa.getActividad().setSector(new Tipo());
                 pantallaDatos.insertar();
             } else {
                 MostrarMensaje.fatal("Informacion", "Codigo de Formulario invalido");
@@ -126,10 +136,30 @@ public class FormularioBean {
         }
     }
 
-    public SelectItem[] getTipoEmpresaItem() throws ConsultarException {
+    public SelectItem[] getTipoItem() throws ConsultarException {
         Map parametros = new HashMap();
-        parametros.put(";where", "o.estado=true");
-        return Combos.getSelectItems(ejbTipoEmpresa.encontarParametros(parametros), true);
+        parametros.put(";where", "o.estado=true and o.sector is null");
+        return Combos.getSelectItems(ejbTipo.encontarParametros(parametros), true);
+    }
+
+    public SelectItem[] getSectorItem() throws ConsultarException {
+        if (empresa.getActividad().getSector().getSector() == null) {
+            return null;
+        }
+        Map parametros = new HashMap();
+        parametros.put(";where", "o.estado=true and o.sector= :sector");
+        parametros.put("sector", empresa.getActividad().getSector().getSector());
+        return Combos.getSelectItems(ejbTipo.encontarParametros(parametros), true);
+    }
+
+    public SelectItem[] getActividadItem() throws ConsultarException {
+        if (empresa.getActividad().getSector() == null) {
+            return null;
+        }
+        Map parametros = new HashMap();
+        parametros.put(";where", "o.estado=true and o.sector= :sector");
+        parametros.put("sector", empresa.getActividad().getSector());
+        return Combos.getSelectItems(ejbActividad.encontarParametros(parametros), true);
     }
 
     public SelectItem[] getPaisItem() throws ConsultarException {
@@ -162,12 +192,16 @@ public class FormularioBean {
         return ejbCiudad.find(id);
     }
 
-    public TipoEmpresa traerTipoEmpresa(int id) throws ConsultarException {
-        return ejbTipoEmpresa.find(id);
+    public Actividad traerActividad(int id) throws ConsultarException {
+        return ejbActividad.find(id);
     }
 
     public Respuesta traeRespuesta(int id) throws ConsultarException {
         return ejbRespuesta.find(id);
+    }
+
+    public Tipo traeTipo(int id) throws ConsultarException {
+        return ejbTipo.find(id);
     }
 
     public SelectItem[] getCiudadItem() throws ConsultarException {
@@ -281,10 +315,11 @@ public class FormularioBean {
             guardaDatosExamenPrevio();
             guardaConsultoria();
             guardaDetalleExamen();
-        } catch (InsertarException | GrabarException ex) {
+            ejbCorreo.enviarCorreo(empresa.getMail(), "Consultoria",ejbCorreo.htmlExamenNuevo(examenConsultoria)); 
+        } catch (InsertarException | GrabarException | MessagingException | UnsupportedEncodingException ex) {
             Logger.getLogger(FormularioBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "/resultado.jsf?faces-redirect=true&cod="+examenConsultoria.getCodigo();
+        return "/resultado.jsf?faces-redirect=true&cod=" + examenConsultoria.getCodigo();
     }
 
     private void guardaExamenPrevio() throws InsertarException {
@@ -316,9 +351,9 @@ public class FormularioBean {
         examenConsultoria.setCodigo(generaCodigo(consultoria));
         ejbExamen.create(examenConsultoria, null);
         BigDecimal total = BigDecimal.valueOf(procesaConsultoriaTotal());
-        int numeroApartados=examenConsultoria.getFormulario().getFormularioApartadoList().size();
-        System.out.println("numero de apartados"+numeroApartados);
-        total=total.divide(new BigDecimal(numeroApartados));
+        int numeroApartados = examenConsultoria.getFormulario().getFormularioApartadoList().size();
+        System.out.println("numero de apartados" + numeroApartados);
+        total = total.divide(new BigDecimal(numeroApartados));
         total.setScale(0, RoundingMode.DOWN);
         examenConsultoria.setTotal(total);
         ejbExamen.edit(examenConsultoria, null);
@@ -367,7 +402,7 @@ public class FormularioBean {
         }
 
         if (apartadoAnterior != null) {
-            System.out.println("sumando ultimo valor de apartado"+apartadoAnterior.getApartado().getId());
+            System.out.println("sumando ultimo valor de apartado" + apartadoAnterior.getApartado().getId());
             detalle = new DetalleExamen();
             detalle.setExamen(examenConsultoria);
             detalle.setFormularioApartado(apartadoAnterior);

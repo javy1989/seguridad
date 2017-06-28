@@ -38,10 +38,10 @@ public class RecomendacionExamen implements Serializable {
     @Column(nullable = false)
     private Integer id;
     @JoinColumn(name = "examen", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Examen examen;
     @JoinColumn(name = "recomendacion", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Recomendacion recomendacion;
 
     public RecomendacionExamen() {

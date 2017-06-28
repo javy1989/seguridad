@@ -44,7 +44,7 @@ public class Apartado implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
-    @OneToMany(mappedBy = "apartado", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "apartado", fetch = FetchType.LAZY)
     private List<FormularioApartado> formularioApartadoList;
 
     public Apartado() {

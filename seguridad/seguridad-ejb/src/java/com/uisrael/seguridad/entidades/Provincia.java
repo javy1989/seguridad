@@ -45,9 +45,9 @@ public class Provincia implements Serializable {
     private String nombre;
     private Boolean estado;
     @JoinColumn(name = "pais", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pais pais;
-    @OneToMany(mappedBy = "provincia", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "provincia", fetch = FetchType.LAZY)
     private List<Ciudad> ciudadList;
 
     public Provincia() {

@@ -1,27 +1,10 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/desarrollo/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/FormularioApartado.java</file>
-            <file>file:/home/desarrollo/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/DatosExamen.java</file>
-            <file>file:/home/desarrollo/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/ApartadoPregunta.java</file>
+            <file>file:/home/desarrollo/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/ActividadFacade.java</file>
+            <file>file:/home/desarrollo/J2EE/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/servicios/CorreoFacade.java</file>
         </group>
     </open-files>
 </project-private>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/workspaceNetbeans/general/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/DatosExamen.java</file>
-            <file>file:/C:/workspaceNetbeans/general/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/ApartadoPregunta.java</file>
-            <file>file:/C:/workspaceNetbeans/general/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/Formulario.java</file>
-            <file>file:/C:/workspaceNetbeans/general/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/FormularioApartado.java</file>
-            <file>file:/C:/workspaceNetbeans/general/seguridad/seguridad/seguridad-ejb/src/java/com/uisrael/seguridad/entidades/DatosExamenPK.java</file>
-        </group>
-    </open-files>
-</project-private>
->>>>>>> origin/master

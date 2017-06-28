@@ -45,9 +45,9 @@ public class Pais implements Serializable {
     @Column(length = 2147483647)
     private String nacionalidad;
     private Boolean estado;
-    @OneToMany(mappedBy = "pais", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
     private List<Provincia> provinciaList;
-    @OneToMany(mappedBy = "pais", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "pais", fetch = FetchType.LAZY)
     private List<Ciudad> ciudadList;
 
     public Pais() {

@@ -45,12 +45,12 @@ public class Ciudad implements Serializable {
     private String nombre;
     private Boolean estado;
     @JoinColumn(name = "pais", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pais pais;
     @JoinColumn(name = "provincia", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Provincia provincia;
-    @OneToMany(mappedBy = "ciudad", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     private List<Empresa> empresaList;
 
     public Ciudad() {

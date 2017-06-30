@@ -24,6 +24,7 @@ import com.uisrael.seguridad.entidades.Provincia;
 import com.uisrael.seguridad.entidades.Respuesta;
 import com.uisrael.seguridad.entidades.Tamanio;
 import com.uisrael.seguridad.entidades.Tipo;
+import com.uisrael.seguridad.entidades.TipoActividad;
 import com.uisrael.seguridad.servicios.ActividadFacade;
 import com.uisrael.seguridad.servicios.CiudadFacade;
 import com.uisrael.seguridad.servicios.CorreoFacade;
@@ -123,7 +124,7 @@ public class FormularioBean {
             if (consultoria != null) {
                 empresa = new Empresa();
                 empresa.setCiudad(new Ciudad());
-                empresa.setActividad(new Actividad());
+                empresa.setActividad(new TipoActividad());
                 empresa.getActividad().setSector(new Tipo());
                 pantallaDatos.insertar();
             } else {
@@ -151,19 +152,11 @@ public class FormularioBean {
 
     public SelectItem[] getTipoItem() throws ConsultarException {
         Map parametros = new HashMap();
-        parametros.put(";where", "o.estado=true and o.sector is null");
+        parametros.put(";where", "o.padre=true");
         return Combos.getSelectItems(ejbTipo.encontarParametros(parametros), true);
     }
 
-    public SelectItem[] getSectorItem() throws ConsultarException {
-        if (empresa.getActividad().getSector().getSector() == null) {
-            return null;
-        }
-        Map parametros = new HashMap();
-        parametros.put(";where", "o.estado=true and o.sector= :sector");
-        parametros.put("sector", empresa.getActividad().getSector().getSector());
-        return Combos.getSelectItems(ejbTipo.encontarParametros(parametros), true);
-    }
+    
 
     public SelectItem[] getActividadItem() throws ConsultarException {
         if (empresa.getActividad().getSector() == null) {

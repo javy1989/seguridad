@@ -54,7 +54,7 @@ public class ApartadoPregunta implements Serializable {
     @JoinColumn(name = "respuesta", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Respuesta respuesta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "apartadoPregunta1", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "apartadoPregunta", fetch = FetchType.LAZY)
     private List<DatosExamen> datosExamenList;
 
     public ApartadoPregunta() {
@@ -86,7 +86,7 @@ public class ApartadoPregunta implements Serializable {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
-    }
+    }   
 
     public BigDecimal getValorPregunta() {
         return valorPregunta;

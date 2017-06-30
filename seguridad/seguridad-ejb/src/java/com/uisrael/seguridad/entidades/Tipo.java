@@ -41,6 +41,7 @@ public class Tipo implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
+    private Boolean padre;
     @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)
     private List<TipoActividad> tipoActividadList;
     @OneToMany(mappedBy = "tipo", fetch = FetchType.LAZY)
@@ -93,6 +94,15 @@ public class Tipo implements Serializable {
         this.tipoActividadList1 = tipoActividadList1;
     }
 
+    public Boolean getPadre() {
+        return padre;
+    }
+
+    public void setPadre(Boolean padre) {
+        this.padre = padre;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -20,39 +20,39 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author Ricardo.Bravo
  */
 @Entity
-@Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "tipo_actividad", catalog = "seguridad", schema = "public")
 @NamedQueries({
-    @NamedQuery(name = "Provincia.findAll", query = "SELECT p FROM Provincia p")})
-public class Provincia implements Serializable {
+    @NamedQuery(name = "TipoActividad.findAll", query = "SELECT t FROM TipoActividad t")})
+public class TipoActividad implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    @Size(max = 2147483647)
-    @Column(length = 2147483647)
-    private String nombre;
-    private Boolean estado;
-    @JoinColumn(name = "pais", referencedColumnName = "id")
+    private Integer orden;
+    @JoinColumn(name = "actividad", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Pais pais;
-    @OneToMany(mappedBy = "provincia", fetch = FetchType.LAZY)
-    private List<Ciudad> ciudadList;
+    private Actividad actividad;
+    @JoinColumn(name = "sector", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Tipo sector;
+    @JoinColumn(name = "tipo", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Tipo tipo;
+    @OneToMany(mappedBy = "actividad", fetch = FetchType.LAZY)
+    private List<Empresa> empresaList;
 
-    public Provincia() {
+    public TipoActividad() {
     }
 
-    public Provincia(Integer id) {
+    public TipoActividad(Integer id) {
         this.id = id;
     }
 
@@ -64,36 +64,44 @@ public class Provincia implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Integer getOrden() {
+        return orden;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public Actividad getActividad() {
+        return actividad;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setActividad(Actividad actividad) {
+        this.actividad = actividad;
     }
 
-    public Pais getPais() {
-        return pais;
+    public Tipo getSector() {
+        return sector;
     }
 
-    public void setPais(Pais pais) {
-        this.pais = pais;
+    public void setSector(Tipo sector) {
+        this.sector = sector;
     }
 
-    public List<Ciudad> getCiudadList() {
-        return ciudadList;
+    public Tipo getTipo() {
+        return tipo;
     }
 
-    public void setCiudadList(List<Ciudad> ciudadList) {
-        this.ciudadList = ciudadList;
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public List<Empresa> getEmpresaList() {
+        return empresaList;
+    }
+
+    public void setEmpresaList(List<Empresa> empresaList) {
+        this.empresaList = empresaList;
     }
 
     @Override
@@ -106,10 +114,10 @@ public class Provincia implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Provincia)) {
+        if (!(object instanceof TipoActividad)) {
             return false;
         }
-        Provincia other = (Provincia) object;
+        TipoActividad other = (TipoActividad) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +126,7 @@ public class Provincia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Provincia[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.TipoActividad[ id=" + id + " ]";
     }
     
 }

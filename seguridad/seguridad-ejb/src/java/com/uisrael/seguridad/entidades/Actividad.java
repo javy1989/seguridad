@@ -14,8 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -48,12 +46,8 @@ public class Actividad implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
-    private Boolean estado;
-    @JoinColumn(name = "sector", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Tipo sector;
     @OneToMany(mappedBy = "actividad", fetch = FetchType.LAZY)
-    private List<Empresa> empresaList;
+    private List<TipoActividad> tipoActividadList;
 
     public Actividad() {
     }
@@ -94,28 +88,12 @@ public class Actividad implements Serializable {
         this.codigo = codigo;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public List<TipoActividad> getTipoActividadList() {
+        return tipoActividadList;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
-    }
-
-    public Tipo getSector() {
-        return sector;
-    }
-
-    public void setSector(Tipo sector) {
-        this.sector = sector;
-    }
-
-    public List<Empresa> getEmpresaList() {
-        return empresaList;
-    }
-
-    public void setEmpresaList(List<Empresa> empresaList) {
-        this.empresaList = empresaList;
+    public void setTipoActividadList(List<TipoActividad> tipoActividadList) {
+        this.tipoActividadList = tipoActividadList;
     }
 
     @Override
@@ -140,7 +118,7 @@ public class Actividad implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Actividad[ id=" + id + " ]";
     }
     
 }

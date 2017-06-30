@@ -36,10 +36,10 @@ public class DatosExamen implements Serializable {
     private Date fecha;
     @JoinColumn(name = "apartado_pregunta", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private ApartadoPregunta apartadoPregunta;
+    private ApartadoPregunta apartadoPregunta1;
     @JoinColumn(name = "examen", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Examen examen;
+    private Examen examen1;
     @JoinColumn(name = "respuesta", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Respuesta respuesta;
@@ -71,20 +71,20 @@ public class DatosExamen implements Serializable {
         this.fecha = fecha;
     }
 
-    public ApartadoPregunta getApartadoPregunta() {
-        return apartadoPregunta;
+    public ApartadoPregunta getApartadoPregunta1() {
+        return apartadoPregunta1;
     }
 
-    public void setApartadoPregunta(ApartadoPregunta apartadoPregunta) {
-        this.apartadoPregunta = apartadoPregunta;
+    public void setApartadoPregunta1(ApartadoPregunta apartadoPregunta1) {
+        this.apartadoPregunta1 = apartadoPregunta1;
     }
 
-    public Examen getExamen() {
-        return examen;
+    public Examen getExamen1() {
+        return examen1;
     }
 
-    public void setExamen(Examen examen) {
-        this.examen = examen;
+    public void setExamen1(Examen examen1) {
+        this.examen1 = examen1;
     }
 
     public Respuesta getRespuesta() {

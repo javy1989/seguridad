@@ -53,15 +53,15 @@ public class Empresa implements Serializable {
     private String direccion;
     @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY)
     private List<Examen> examenList;
-    @JoinColumn(name = "actividad", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Actividad actividad;
     @JoinColumn(name = "ciudad", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Ciudad ciudad;
     @JoinColumn(name = "tamanio", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Tamanio tamanio;
+    @JoinColumn(name = "actividad", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TipoActividad actividad;
 
     public Empresa() {
     }
@@ -118,14 +118,6 @@ public class Empresa implements Serializable {
         this.examenList = examenList;
     }
 
-    public Actividad getActividad() {
-        return actividad;
-    }
-
-    public void setActividad(Actividad actividad) {
-        this.actividad = actividad;
-    }
-
     public Ciudad getCiudad() {
         return ciudad;
     }
@@ -140,6 +132,14 @@ public class Empresa implements Serializable {
 
     public void setTamanio(Tamanio tamanio) {
         this.tamanio = tamanio;
+    }
+
+    public TipoActividad getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(TipoActividad actividad) {
+        this.actividad = actividad;
     }
 
     @Override

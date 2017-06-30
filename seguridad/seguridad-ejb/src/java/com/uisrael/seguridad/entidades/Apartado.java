@@ -107,7 +107,7 @@ public class Apartado implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Apartado[ id=" + id + " ]";
     }
     
 }

@@ -6,21 +6,15 @@
 package com.uisrael.seguridad.entidades;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Size;
 
 /**
@@ -28,11 +22,10 @@ import javax.validation.constraints.Size;
  * @author Ricardo.Bravo
  */
 @Entity
-@Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(catalog = "seguridad", schema = "public")
 @NamedQueries({
-    @NamedQuery(name = "Provincia.findAll", query = "SELECT p FROM Provincia p")})
-public class Provincia implements Serializable {
+    @NamedQuery(name = "Sector.findAll", query = "SELECT s FROM Sector s")})
+public class Sector implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,17 +35,17 @@ public class Provincia implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String nombre;
-    private Boolean estado;
-    @JoinColumn(name = "pais", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Pais pais;
-    @OneToMany(mappedBy = "provincia", fetch = FetchType.LAZY)
-    private List<Ciudad> ciudadList;
+    @Size(max = 2147483647)
+    @Column(length = 2147483647)
+    private String descripcion;
+    @Size(max = 2147483647)
+    @Column(length = 2147483647)
+    private String codigo;
 
-    public Provincia() {
+    public Sector() {
     }
 
-    public Provincia(Integer id) {
+    public Sector(Integer id) {
         this.id = id;
     }
 
@@ -72,28 +65,20 @@ public class Provincia implements Serializable {
         this.nombre = nombre;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public Pais getPais() {
-        return pais;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setPais(Pais pais) {
-        this.pais = pais;
-    }
-
-    public List<Ciudad> getCiudadList() {
-        return ciudadList;
-    }
-
-    public void setCiudadList(List<Ciudad> ciudadList) {
-        this.ciudadList = ciudadList;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     @Override
@@ -106,10 +91,10 @@ public class Provincia implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Provincia)) {
+        if (!(object instanceof Sector)) {
             return false;
         }
-        Provincia other = (Provincia) object;
+        Sector other = (Sector) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +103,7 @@ public class Provincia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Provincia[ id=" + id + " ]";
+        return "com.uisrael.seguridad.entidades.Sector[ id=" + id + " ]";
     }
     
 }

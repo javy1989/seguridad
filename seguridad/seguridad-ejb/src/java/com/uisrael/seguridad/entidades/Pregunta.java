@@ -128,7 +128,7 @@ public class Pregunta implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Pregunta[ id=" + id + " ]";
     }
     
 }

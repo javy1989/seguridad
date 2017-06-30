@@ -183,7 +183,7 @@ public class Formulario implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Formulario[ id=" + id + " ]";
     }
     
 }

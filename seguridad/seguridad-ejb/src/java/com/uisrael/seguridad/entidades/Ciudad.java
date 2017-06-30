@@ -129,7 +129,7 @@ public class Ciudad implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Ciudad[ id=" + id + " ]";
     }
     
 }

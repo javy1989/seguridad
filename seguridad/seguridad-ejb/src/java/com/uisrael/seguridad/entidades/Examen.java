@@ -63,7 +63,7 @@ public class Examen implements Serializable {
     private List<RecomendacionExamen> recomendacionExamenList;
     @OneToMany(mappedBy = "examen", fetch = FetchType.LAZY)
     private List<DetalleExamen> detalleExamenList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "examen1", fetch = FetchType.LAZY)
     private List<DatosExamen> datosExamenList;
 
     public Examen() {

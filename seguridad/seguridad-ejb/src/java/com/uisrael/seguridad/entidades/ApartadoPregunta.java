@@ -54,7 +54,7 @@ public class ApartadoPregunta implements Serializable {
     @JoinColumn(name = "respuesta", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Respuesta respuesta;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "apartadoPregunta", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "apartadoPregunta1", fetch = FetchType.LAZY)
     private List<DatosExamen> datosExamenList;
 
     public ApartadoPregunta() {

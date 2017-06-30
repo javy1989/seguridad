@@ -14,8 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -43,14 +41,10 @@ public class Tipo implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
-    private Boolean estado;
     @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)
-    private List<Tipo> tipoList;
-    @JoinColumn(name = "sector", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Tipo sector;
-    @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)
-    private List<Actividad> actividadList;
+    private List<TipoActividad> tipoActividadList;
+    @OneToMany(mappedBy = "tipo", fetch = FetchType.LAZY)
+    private List<TipoActividad> tipoActividadList1;
 
     public Tipo() {
     }
@@ -83,36 +77,20 @@ public class Tipo implements Serializable {
         this.codigo = codigo;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public List<TipoActividad> getTipoActividadList() {
+        return tipoActividadList;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setTipoActividadList(List<TipoActividad> tipoActividadList) {
+        this.tipoActividadList = tipoActividadList;
     }
 
-    public List<Tipo> getTipoList() {
-        return tipoList;
+    public List<TipoActividad> getTipoActividadList1() {
+        return tipoActividadList1;
     }
 
-    public void setTipoList(List<Tipo> tipoList) {
-        this.tipoList = tipoList;
-    }
-
-    public Tipo getSector() {
-        return sector;
-    }
-
-    public void setSector(Tipo sector) {
-        this.sector = sector;
-    }
-
-    public List<Actividad> getActividadList() {
-        return actividadList;
-    }
-
-    public void setActividadList(List<Actividad> actividadList) {
-        this.actividadList = actividadList;
+    public void setTipoActividadList1(List<TipoActividad> tipoActividadList1) {
+        this.tipoActividadList1 = tipoActividadList1;
     }
 
     @Override
@@ -137,7 +115,7 @@ public class Tipo implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion;
+        return "com.uisrael.seguridad.entidades.Tipo[ id=" + id + " ]";
     }
     
 }

@@ -150,7 +150,7 @@ public class Respuesta implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "com.uisrael.seguridad.entidades.Respuesta[ id=" + id + " ]";
     }
     
 }

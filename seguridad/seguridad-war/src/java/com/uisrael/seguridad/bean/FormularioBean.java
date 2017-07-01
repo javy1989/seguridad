@@ -22,9 +22,11 @@ import com.uisrael.seguridad.entidades.FormularioApartado;
 import com.uisrael.seguridad.entidades.Pais;
 import com.uisrael.seguridad.entidades.Provincia;
 import com.uisrael.seguridad.entidades.Respuesta;
+import com.uisrael.seguridad.entidades.Sector;
+import com.uisrael.seguridad.entidades.SectorActividad;
 import com.uisrael.seguridad.entidades.Tamanio;
 import com.uisrael.seguridad.entidades.Tipo;
-import com.uisrael.seguridad.entidades.TipoActividad;
+import com.uisrael.seguridad.entidades.TipoSector;
 import com.uisrael.seguridad.servicios.ActividadFacade;
 import com.uisrael.seguridad.servicios.CiudadFacade;
 import com.uisrael.seguridad.servicios.CorreoFacade;
@@ -36,8 +38,11 @@ import com.uisrael.seguridad.servicios.FormularioFacade;
 import com.uisrael.seguridad.servicios.PaisFacade;
 import com.uisrael.seguridad.servicios.ProvinciaFacade;
 import com.uisrael.seguridad.servicios.RespuestaFacade;
+import com.uisrael.seguridad.servicios.SectorActividadFacade;
+import com.uisrael.seguridad.servicios.SectorFacade;
 import com.uisrael.seguridad.servicios.TamanioFacade;
 import com.uisrael.seguridad.servicios.TipoFacade;
+import com.uisrael.seguridad.servicios.TipoSectorFacade;
 import com.uisrael.seguridad.utilidades.Combos;
 import com.uisrael.seguridad.utilidades.General;
 import com.uisrael.seguridad.utilidades.MostrarMensaje;
@@ -97,6 +102,12 @@ public class FormularioBean {
     private CorreoFacade ejbCorreo;
     @EJB
     private TamanioFacade ejbTamanio;
+    @EJB
+    private TipoSectorFacade ejbTipoSector;
+    @EJB
+    private SectorFacade ejbSector;
+    @EJB
+    private SectorActividadFacade ejbSectorActividad;
 
     private Pantalla pantallaDatos = new Pantalla();
     private Pantalla pantallaPrevio = new Pantalla();
@@ -124,8 +135,8 @@ public class FormularioBean {
             if (consultoria != null) {
                 empresa = new Empresa();
                 empresa.setCiudad(new Ciudad());
-                empresa.setActividad(new TipoActividad());
-                empresa.getActividad().setSector(new Tipo());
+                empresa.setActividad(new SectorActividad());
+                empresa.getActividad().setSector(new TipoSector());
                 pantallaDatos.insertar();
             } else {
                 MostrarMensaje.fatal("Informacion", "Codigo de Formulario invalido");
@@ -156,16 +167,26 @@ public class FormularioBean {
         return Combos.getSelectItems(ejbTipo.encontarParametros(parametros), true);
     }
 
-    
+    public SelectItem[] getSectorItem() throws ConsultarException {
+        if (empresa.getActividad().getSector().getTipo() == null) {
+            return null;
+        }
+        Map parametros = new HashMap();
+        parametros.put(";where", "o.tipo= :tipo");
+        parametros.put("tipo", empresa.getActividad().getSector().getTipo());
+        parametros.put(";orden", "o.orden");
+        return Combos.getSelectItems(ejbTipoSector.encontarParametros(parametros), true);
+    }
 
     public SelectItem[] getActividadItem() throws ConsultarException {
         if (empresa.getActividad().getSector() == null) {
             return null;
         }
         Map parametros = new HashMap();
-        parametros.put(";where", "o.estado=true and o.sector= :sector");
+        parametros.put(";where", "o.sector= :sector");
         parametros.put("sector", empresa.getActividad().getSector());
-        return Combos.getSelectItems(ejbActividad.encontarParametros(parametros), true);
+        parametros.put(";orden", "o.orden");
+        return Combos.getSelectItems(ejbSectorActividad.encontarParametros(parametros), true);
     }
 
     public SelectItem[] getPaisItem() throws ConsultarException {
@@ -181,6 +202,18 @@ public class FormularioBean {
                 parametros.put(";where", "o.estado=true and o.pais= :pais");
                 parametros.put("pais", empresa.getCiudad().getPais());
                 return Combos.getSelectItems(ejbProvincia.encontarParametros(parametros), true);
+            }
+        }
+        return null;
+    }
+
+    public SelectItem[] getCiudadItem() throws ConsultarException {
+        if (empresa.getCiudad() != null) {
+            if (empresa.getCiudad().getProvincia() != null) {
+                Map parametros = new HashMap();
+                parametros.put(";where", "o.estado=true and o.provincia= :provincia");
+                parametros.put("provincia", empresa.getCiudad().getProvincia());
+                return Combos.getSelectItems(ejbCiudad.encontarParametros(parametros), true);
             }
         }
         return null;
@@ -214,16 +247,16 @@ public class FormularioBean {
         return ejbTamanio.find(id);
     }
 
-    public SelectItem[] getCiudadItem() throws ConsultarException {
-        if (empresa.getCiudad() != null) {
-            if (empresa.getCiudad().getProvincia() != null) {
-                Map parametros = new HashMap();
-                parametros.put(";where", "o.estado=true and o.provincia= :provincia");
-                parametros.put("provincia", empresa.getCiudad().getProvincia());
-                return Combos.getSelectItems(ejbCiudad.encontarParametros(parametros), true);
-            }
-        }
-        return null;
+    public TipoSector traeTipoSector(int id) throws ConsultarException {
+        return ejbTipoSector.find(id);
+    }
+
+    public SectorActividad traeSectorActividad(int id) throws ConsultarException {
+        return ejbSectorActividad.find(id);
+    }
+
+    public Sector traeSector(int id) throws ConsultarException {
+        return ejbSector.find(id);
     }
 
     public String continuarPrevio() throws ConsultarException {

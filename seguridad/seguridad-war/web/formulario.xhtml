@@ -10,8 +10,7 @@
             <div class="Container100 Responsive100">
                 <div class="Card ui-fluid"> 
                     <h:form id="form">
-                        <div class="Container20" />
-                        <p:fieldset rendered="#{formulario.pantallaDatos.mostrar}" legend="Formulario de Datos Empresa" class="Container60">
+                        <p:fieldset rendered="#{formulario.pantallaDatos.mostrar}" legend="Formulario de Datos Empresa" class="Container60" style="margin-left: 25%;">
                             <h:panelGrid columns="2" style="width: 80%" >
                                 <h:outputLabel value="Tamaño de empresa:" for="tamanio"/>
                                 <p:selectOneMenu id="tamanio" value="#{formulario.empresa.tamanio}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Tamaño de empresa necesaria">
@@ -19,7 +18,7 @@
                                 </p:selectOneMenu>
 
                                 <h:outputLabel value="Tipo de Empresa:" for="tipo"/>
-                                <p:selectOneMenu id="tipo" value="#{formulario.empresa.actividad.sector.sector}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Tipo de empresa necesaria">
+                                <p:selectOneMenu id="tipo" value="#{formulario.empresa.actividad.sector.tipo}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Tipo de empresa necesaria">
                                     <f:selectItems value="#{formulario.tipoItem}" />
                                     <p:ajax event="change" immediate="true" update="sector"/>
                                 </p:selectOneMenu>

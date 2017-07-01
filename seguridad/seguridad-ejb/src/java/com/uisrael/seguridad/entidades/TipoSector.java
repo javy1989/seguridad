@@ -14,23 +14,22 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 /**
  *
  * @author ricardo
  */
 @Entity
-@Table(name = "grupo_respuesta", catalog = "seguridad", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id"})})
+@Table(name = "tipo_sector", catalog = "seguridad", schema = "public")
 @NamedQueries({
-    @NamedQuery(name = "GrupoRespuesta.findAll", query = "SELECT g FROM GrupoRespuesta g")})
-public class GrupoRespuesta implements Serializable {
+    @NamedQuery(name = "TipoSector.findAll", query = "SELECT t FROM TipoSector t")})
+public class TipoSector implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,21 +37,21 @@ public class GrupoRespuesta implements Serializable {
     @Basic(optional = false)
     @Column(nullable = false)
     private Integer id;
-    @Size(max = 2147483647)
-    @Column(length = 2147483647)
-    private String nombre;
-    @Size(max = 2147483647)
-    @Column(length = 2147483647)
-    private String codigo;
-    @OneToMany(mappedBy = "grupoRespuesta", fetch = FetchType.LAZY)
-    private List<Pregunta> preguntaList;
-    @OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY)
-    private List<Respuesta> respuestaList;
+    private Integer orden;
+    private Boolean estado;
+    @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)
+    private List<SectorActividad> sectorActividadList;
+    @JoinColumn(name = "sector", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Sector sector;
+    @JoinColumn(name = "tipo", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Tipo tipo;
 
-    public GrupoRespuesta() {
+    public TipoSector() {
     }
 
-    public GrupoRespuesta(Integer id) {
+    public TipoSector(Integer id) {
         this.id = id;
     }
 
@@ -64,36 +63,44 @@ public class GrupoRespuesta implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public Integer getOrden() {
+        return orden;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public Boolean getEstado() {
+        return estado;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
-    public List<Pregunta> getPreguntaList() {
-        return preguntaList;
+    public List<SectorActividad> getSectorActividadList() {
+        return sectorActividadList;
     }
 
-    public void setPreguntaList(List<Pregunta> preguntaList) {
-        this.preguntaList = preguntaList;
+    public void setSectorActividadList(List<SectorActividad> sectorActividadList) {
+        this.sectorActividadList = sectorActividadList;
     }
 
-    public List<Respuesta> getRespuestaList() {
-        return respuestaList;
+    public Sector getSector() {
+        return sector;
     }
 
-    public void setRespuestaList(List<Respuesta> respuestaList) {
-        this.respuestaList = respuestaList;
+    public void setSector(Sector sector) {
+        this.sector = sector;
+    }
+
+    public Tipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(Tipo tipo) {
+        this.tipo = tipo;
     }
 
     @Override
@@ -106,10 +113,10 @@ public class GrupoRespuesta implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof GrupoRespuesta)) {
+        if (!(object instanceof TipoSector)) {
             return false;
         }
-        GrupoRespuesta other = (GrupoRespuesta) object;
+        TipoSector other = (TipoSector) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -118,7 +125,7 @@ public class GrupoRespuesta implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.GrupoRespuesta[ id=" + id + " ]";
+        return sector.toString();
     }
     
 }

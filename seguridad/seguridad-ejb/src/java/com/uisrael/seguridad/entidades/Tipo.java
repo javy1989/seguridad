@@ -22,13 +22,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Tipo.findAll", query = "SELECT t FROM Tipo t")})
 public class Tipo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,10 +43,8 @@ public class Tipo implements Serializable {
     @Column(length = 2147483647)
     private String codigo;
     private Boolean padre;
-    @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)
-    private List<TipoActividad> tipoActividadList;
     @OneToMany(mappedBy = "tipo", fetch = FetchType.LAZY)
-    private List<TipoActividad> tipoActividadList1;
+    private List<TipoSector> tipoSectorList;
 
     public Tipo() {
     }
@@ -78,22 +77,6 @@ public class Tipo implements Serializable {
         this.codigo = codigo;
     }
 
-    public List<TipoActividad> getTipoActividadList() {
-        return tipoActividadList;
-    }
-
-    public void setTipoActividadList(List<TipoActividad> tipoActividadList) {
-        this.tipoActividadList = tipoActividadList;
-    }
-
-    public List<TipoActividad> getTipoActividadList1() {
-        return tipoActividadList1;
-    }
-
-    public void setTipoActividadList1(List<TipoActividad> tipoActividadList1) {
-        this.tipoActividadList1 = tipoActividadList1;
-    }
-
     public Boolean getPadre() {
         return padre;
     }
@@ -102,7 +85,14 @@ public class Tipo implements Serializable {
         this.padre = padre;
     }
 
-    
+    public List<TipoSector> getTipoSectorList() {
+        return tipoSectorList;
+    }
+
+    public void setTipoSectorList(List<TipoSector> tipoSectorList) {
+        this.tipoSectorList = tipoSectorList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -125,7 +115,7 @@ public class Tipo implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Tipo[ id=" + id + " ]";
+        return descripcion;
     }
     
 }

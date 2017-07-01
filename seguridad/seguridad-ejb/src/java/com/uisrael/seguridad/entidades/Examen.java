@@ -30,7 +30,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -38,6 +38,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Examen.findAll", query = "SELECT e FROM Examen e")})
 public class Examen implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

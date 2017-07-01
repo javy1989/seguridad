@@ -26,7 +26,7 @@ import javax.persistence.UniqueConstraint;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(name = "apartado_pregunta", catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -34,6 +34,7 @@ import javax.persistence.UniqueConstraint;
 @NamedQueries({
     @NamedQuery(name = "ApartadoPregunta.findAll", query = "SELECT a FROM ApartadoPregunta a")})
 public class ApartadoPregunta implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,7 +87,7 @@ public class ApartadoPregunta implements Serializable {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
-    }   
+    }
 
     public BigDecimal getValorPregunta() {
         return valorPregunta;

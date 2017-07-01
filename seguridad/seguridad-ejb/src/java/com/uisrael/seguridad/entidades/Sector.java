@@ -6,26 +6,30 @@
 package com.uisrael.seguridad.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Sector.findAll", query = "SELECT s FROM Sector s")})
 public class Sector implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +45,8 @@ public class Sector implements Serializable {
     @Size(max = 2147483647)
     @Column(length = 2147483647)
     private String codigo;
+    @OneToMany(mappedBy = "sector", fetch = FetchType.LAZY)
+    private List<TipoSector> tipoSectorList;
 
     public Sector() {
     }
@@ -81,6 +87,14 @@ public class Sector implements Serializable {
         this.codigo = codigo;
     }
 
+    public List<TipoSector> getTipoSectorList() {
+        return tipoSectorList;
+    }
+
+    public void setTipoSectorList(List<TipoSector> tipoSectorList) {
+        this.tipoSectorList = tipoSectorList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -103,7 +117,7 @@ public class Sector implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Sector[ id=" + id + " ]";
+        return nombre;
     }
     
 }

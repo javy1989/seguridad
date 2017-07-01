@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -31,6 +31,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Actividad.findAll", query = "SELECT a FROM Actividad a")})
 public class Actividad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +48,7 @@ public class Actividad implements Serializable {
     @Column(length = 2147483647)
     private String codigo;
     @OneToMany(mappedBy = "actividad", fetch = FetchType.LAZY)
-    private List<TipoActividad> tipoActividadList;
+    private List<SectorActividad> sectorActividadList;
 
     public Actividad() {
     }
@@ -88,12 +89,12 @@ public class Actividad implements Serializable {
         this.codigo = codigo;
     }
 
-    public List<TipoActividad> getTipoActividadList() {
-        return tipoActividadList;
+    public List<SectorActividad> getSectorActividadList() {
+        return sectorActividadList;
     }
 
-    public void setTipoActividadList(List<TipoActividad> tipoActividadList) {
-        this.tipoActividadList = tipoActividadList;
+    public void setSectorActividadList(List<SectorActividad> sectorActividadList) {
+        this.sectorActividadList = sectorActividadList;
     }
 
     @Override
@@ -118,7 +119,7 @@ public class Actividad implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Actividad[ id=" + id + " ]";
+        return nombre;
     }
     
 }

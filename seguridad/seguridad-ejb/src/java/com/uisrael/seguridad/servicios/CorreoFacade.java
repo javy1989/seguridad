@@ -40,7 +40,9 @@ public class CorreoFacade {
 
     public void enviarCorreo(String correo, String asunto, String cuerpo) throws MessagingException, UnsupportedEncodingException {
         try {
+            System.out.println("enviando correo");
             sendMail(correo, asunto, cuerpo);
+            System.out.println("enviado");
         } catch (NamingException ex) {
             Logger.getLogger(CorreoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }

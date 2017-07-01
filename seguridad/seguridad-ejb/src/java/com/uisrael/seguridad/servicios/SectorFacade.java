@@ -5,7 +5,7 @@
  */
 package com.uisrael.seguridad.servicios;
 
-import com.uisrael.seguridad.entidades.Actividad;
+import com.uisrael.seguridad.entidades.Sector;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author ricardo
  */
 @Stateless
-public class ActividadFacade extends AbstractFacade<Actividad> {
+public class SectorFacade extends AbstractFacade<Sector> {
 
     @PersistenceContext(unitName = "seguridad-ejbPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class ActividadFacade extends AbstractFacade<Actividad> {
         return em;
     }
 
-    public ActividadFacade() {
-        super(Actividad.class);
+    public SectorFacade() {
+        super(Sector.class);
     }
     
 }

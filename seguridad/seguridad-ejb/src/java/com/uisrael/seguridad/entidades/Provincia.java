@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -33,6 +33,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Provincia.findAll", query = "SELECT p FROM Provincia p")})
 public class Provincia implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -118,7 +119,7 @@ public class Provincia implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Provincia[ id=" + id + " ]";
+        return nombre;
     }
     
 }

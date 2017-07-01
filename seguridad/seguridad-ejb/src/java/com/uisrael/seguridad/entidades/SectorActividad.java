@@ -23,13 +23,14 @@ import javax.persistence.Table;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
-@Table(name = "tipo_actividad", catalog = "seguridad", schema = "public")
+@Table(name = "sector_actividad", catalog = "seguridad", schema = "public")
 @NamedQueries({
-    @NamedQuery(name = "TipoActividad.findAll", query = "SELECT t FROM TipoActividad t")})
-public class TipoActividad implements Serializable {
+    @NamedQuery(name = "SectorActividad.findAll", query = "SELECT s FROM SectorActividad s")})
+public class SectorActividad implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,22 +38,20 @@ public class TipoActividad implements Serializable {
     @Column(nullable = false)
     private Integer id;
     private Integer orden;
+    private Boolean estado;
     @JoinColumn(name = "actividad", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Actividad actividad;
     @JoinColumn(name = "sector", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Tipo sector;
-    @JoinColumn(name = "tipo", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Tipo tipo;
+    private TipoSector sector;
     @OneToMany(mappedBy = "actividad", fetch = FetchType.LAZY)
     private List<Empresa> empresaList;
 
-    public TipoActividad() {
+    public SectorActividad() {
     }
 
-    public TipoActividad(Integer id) {
+    public SectorActividad(Integer id) {
         this.id = id;
     }
 
@@ -72,6 +71,14 @@ public class TipoActividad implements Serializable {
         this.orden = orden;
     }
 
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
     public Actividad getActividad() {
         return actividad;
     }
@@ -80,20 +87,12 @@ public class TipoActividad implements Serializable {
         this.actividad = actividad;
     }
 
-    public Tipo getSector() {
+    public TipoSector getSector() {
         return sector;
     }
 
-    public void setSector(Tipo sector) {
+    public void setSector(TipoSector sector) {
         this.sector = sector;
-    }
-
-    public Tipo getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
     }
 
     public List<Empresa> getEmpresaList() {
@@ -114,10 +113,10 @@ public class TipoActividad implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TipoActividad)) {
+        if (!(object instanceof SectorActividad)) {
             return false;
         }
-        TipoActividad other = (TipoActividad) object;
+        SectorActividad other = (SectorActividad) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -126,7 +125,11 @@ public class TipoActividad implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.TipoActividad[ id=" + id + " ]";
+        if (actividad != null) {
+            return actividad.toString();
+        }
+        return "";
+
     }
-    
+
 }

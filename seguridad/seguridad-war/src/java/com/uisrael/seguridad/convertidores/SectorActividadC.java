@@ -7,7 +7,7 @@ package com.uisrael.seguridad.convertidores;
 
 import com.plancurricular.excepciones.ConsultarException;
 import com.uisrael.seguridad.bean.FormularioBean;
-import com.uisrael.seguridad.entidades.Tipo;
+import com.uisrael.seguridad.entidades.SectorActividad;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -17,27 +17,28 @@ import javax.faces.convert.FacesConverter;
  *
  * @author ricardo
  */
-@FacesConverter(forClass = Tipo.class)
-public class TipoC implements Converter {
+@FacesConverter(forClass = SectorActividad.class)
+public class SectorActividadC implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        Tipo tipo = null;
+        SectorActividad actividad = null;
         try {
             FormularioBean bean = (FormularioBean) context.getELContext().getELResolver().getValue(context.getELContext(), null, "formulario");
             int id = Integer.parseInt(value);
-            tipo = bean.traeTipo(id);
+            actividad = bean.traeSectorActividad(id);
         } catch (ConsultarException | NumberFormatException e) {
         }
-        return tipo;
+        return actividad;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        Tipo tipo = (Tipo) value;
-        if (tipo.getId() == null) {
+        SectorActividad actividad = (SectorActividad) value;
+        if (actividad.getId() == null) {
             return "0";
         }
-        return ((Tipo) value).getId().toString();
+        return ((SectorActividad) value).getId().toString();
     }
+
 }

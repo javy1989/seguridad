@@ -21,7 +21,7 @@ import javax.persistence.UniqueConstraint;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(name = "datos_examen", catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -29,6 +29,7 @@ import javax.persistence.UniqueConstraint;
 @NamedQueries({
     @NamedQuery(name = "DatosExamen.findAll", query = "SELECT d FROM DatosExamen d")})
 public class DatosExamen implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected DatosExamenPK datosExamenPK;

@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public", uniqueConstraints = {
@@ -33,6 +33,7 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(name = "Empresa.findAll", query = "SELECT e FROM Empresa e")})
 public class Empresa implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,12 +57,12 @@ public class Empresa implements Serializable {
     @JoinColumn(name = "ciudad", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Ciudad ciudad;
+    @JoinColumn(name = "actividad", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SectorActividad actividad;
     @JoinColumn(name = "tamanio", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Tamanio tamanio;
-    @JoinColumn(name = "actividad", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private TipoActividad actividad;
 
     public Empresa() {
     }
@@ -126,20 +127,20 @@ public class Empresa implements Serializable {
         this.ciudad = ciudad;
     }
 
+    public SectorActividad getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(SectorActividad actividad) {
+        this.actividad = actividad;
+    }
+
     public Tamanio getTamanio() {
         return tamanio;
     }
 
     public void setTamanio(Tamanio tamanio) {
         this.tamanio = tamanio;
-    }
-
-    public TipoActividad getActividad() {
-        return actividad;
-    }
-
-    public void setActividad(TipoActividad actividad) {
-        this.actividad = actividad;
     }
 
     @Override

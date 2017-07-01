@@ -22,13 +22,14 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author Ricardo.Bravo
+ * @author ricardo
  */
 @Entity
 @Table(catalog = "seguridad", schema = "public")
 @NamedQueries({
     @NamedQuery(name = "Tamanio.findAll", query = "SELECT t FROM Tamanio t")})
 public class Tamanio implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -125,7 +126,7 @@ public class Tamanio implements Serializable {
 
     @Override
     public String toString() {
-        return "com.uisrael.seguridad.entidades.Tamanio[ id=" + id + " ]";
+        return nombre.concat("----").concat(descripcion);
     }
     
 }

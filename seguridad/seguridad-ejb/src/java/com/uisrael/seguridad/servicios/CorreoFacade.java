@@ -53,8 +53,8 @@ public class CorreoFacade {
         message.setSubject(subject);
 
         message.setFrom(new InternetAddress(
-                "softenterprise.com@gmail.com",
-                "Sistema de Planificación Curricular"));
+                "autoevaluacion.com@gmail.com",
+                "Sistema de Autoevalucion Etica-Empresarial"));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email, false));
         Multipart multipart = new MimeMultipart("alternative");
         MimeBodyPart textPart = new MimeBodyPart();

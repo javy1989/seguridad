@@ -8,11 +8,11 @@
             <web-module-libraries/>
             <web-module-additional-libraries>
                 <library>
-                    <file>${reference.seguridad-war.dist-ear}</file>
+                    <file>${reference.seguridad-ejb.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
                 <library>
-                    <file>${reference.seguridad-ejb.dist-ear}</file>
+                    <file>${reference.evaluacion-empresarial.dist-ear}</file>
                     <path-in-war>/</path-in-war>
                 </library>
             </web-module-additional-libraries>
@@ -22,7 +22,7 @@
         </libraries>
         <references xmlns="http://www.netbeans.org/ns/ant-project-references/1">
             <reference>
-                <foreign-project>seguridad-ejb</foreign-project>
+                <foreign-project>evaluacion-empresarial</foreign-project>
                 <artifact-type>j2ee_ear_archive</artifact-type>
                 <script>build.xml</script>
                 <target>dist-ear</target>
@@ -30,7 +30,7 @@
                 <id>dist-ear</id>
             </reference>
             <reference>
-                <foreign-project>seguridad-war</foreign-project>
+                <foreign-project>seguridad-ejb</foreign-project>
                 <artifact-type>j2ee_ear_archive</artifact-type>
                 <script>build.xml</script>
                 <target>dist-ear</target>

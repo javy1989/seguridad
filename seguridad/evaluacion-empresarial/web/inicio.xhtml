@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="Container10"/>
+            <div class="Container80">
+                <div class="Card">
+                    <div class="CardTopic">Listado de Consultorias</div>
+                    <div class="SeparatorFull"></div>
+                    <div class="Container100 NoIndent">
+                        <h:form id="form">
+                            <p:dataGrid id="formularios" 
+                                        value="#{inicio.formularioList}"
+                                        var="frm"
+                                        columns="1"
+                                        layout="grid"
+                                        rows="12"
+                                        paginator="true"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="6,12,18"
+                                        >
+
+                                <f:facet name="header">
+                                    Consultorias
+                                </f:facet>
+                                <p:panel header="#{frm.nombre}" style="text-align: center;">
+                                    <h:panelGrid columns="1" style="width: 100%">
+                                        <h:outputText value="#{frm.descripcion}"/>
+                                        <p:commandButton icon="fa fa-calendar-o" styleClass="OrangeButton RaisedButton" action="#{inicio.irFormulario()}" update=":growl">
+                                            <f:setPropertyActionListener value="#{frm}" target="#{inicio.formulario}"/>
+                                        </p:commandButton>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </p:dataGrid>
+                        </h:form>
+                    </div>
+                </div>
+            </div> 
+            <div class="Container10"/>    
+        </div>
+
+    </ui:define>
+</ui:composition>

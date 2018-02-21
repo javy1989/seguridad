@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="Container100 Responsive100">
+                <div class="Card ui-fluid"> 
+                    <h:form id="form">
+                        <p:fieldset rendered="#{formulario.pantallaDatos.mostrar}" legend="Formulario de Datos Empresa" class="Container60" style="margin-left: 25%;">
+                            <h:panelGrid columns="2" style="width: 80%" >
+                                <h:outputLabel value="Tamaño de empresa:" for="tamanio"/>
+                                <p:selectOneMenu id="tamanio" value="#{formulario.empresa.tamanio}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Tamaño de empresa necesaria">
+                                    <f:selectItems value="#{formulario.tamanioItem}" />
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Tipo de Empresa:" for="tipo"/>
+                                <p:selectOneMenu id="tipo" value="#{formulario.empresa.actividad.sector.tipo}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Tipo de empresa necesaria">
+                                    <f:selectItems value="#{formulario.tipoItem}" />
+                                    <p:ajax event="change" immediate="true" update="sector"/>
+                                </p:selectOneMenu>
+
+
+                                <h:outputLabel value="Sector de Empresa:" for="sector"/>
+                                <p:selectOneMenu id="sector" value="#{formulario.empresa.actividad.sector}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Actividad de empresa necesaria">
+                                    <f:selectItems value="#{formulario.sectorItem}"/>
+                                    <p:ajax event="change" immediate="true" update="actividad"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Actividad de Empresa:" for="actividad"/>
+                                <p:selectOneMenu id="actividad" value="#{formulario.empresa.actividad}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Actividad de empresa necesaria">
+                                    <f:selectItems value="#{formulario.actividadItem}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Pais:" for="pais"/>
+                                <p:selectOneMenu id="pais" value="#{formulario.empresa.ciudad.pais}" filter="true" filterMatchMode="contains" required="true" requiredMessage="Pais necesario">
+                                    <f:selectItems value="#{formulario.paisItem}"/>
+                                    <p:ajax  event="change" immediate="true" update="provincia"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Provincia:" for="provincia"/>
+                                <p:selectOneMenu id="provincia" value="#{formulario.empresa.ciudad.provincia}" required="true" requiredMessage="Provincia necesario">
+                                    <f:selectItems value="#{formulario.provinciaItem}"/>
+                                    <p:ajax event="change" immediate="true" update="ciudad" />
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Ciudad:" for="ciudad"/>
+                                <p:selectOneMenu id="ciudad" value="#{formulario.empresa.ciudad}" required="true" requiredMessage="Ciudad necesario">
+                                    <f:selectItems value="#{formulario.ciudadItem}"/>
+                                </p:selectOneMenu>
+
+                                <h:outputLabel value="Nombre Empresa:" for="nombre"/>
+                                <p:inputText id="nombre" value="#{formulario.empresa.nombre}"/>
+
+                                <h:outputLabel value="Correo Electronico:" for="mail"/>
+                                <p:inputText id="mail" value="#{formulario.empresa.mail}" required="true" requiredMessage="Correo electronico necesario">
+                                    <f:validator validatorId="validadorEmail"/>
+                                </p:inputText>
+
+                                <h:outputLabel value="Telefono:" for="tlf"/>
+                                <p:inputText id="tlf" value="#{formulario.empresa.telefono}"/>
+
+                                <h:outputLabel value="Direccion:" for="direccion"/>
+                                <p:inputText id="direccion" value="#{formulario.empresa.direccion}"/>
+                            </h:panelGrid>
+                            <p/>
+                            <div class="TexAlCenter ">
+                                <p:commandButton action="#{formulario.continuarPrevio()}" icon="ui-icon ui-autocomplete-token" value="Continuar" update="@form" />    
+                            </div>
+                        </p:fieldset>                        
+                        <p:fieldset legend="#{formulario.previo.nombre}" rendered="#{formulario.pantallaPrevio.mostrar}">
+                            <p:dataTable var="previo" value="#{formulario.previoRespuestaList}"
+                                         paginator="true"
+                                         resizableColumns="true"
+                                         paginatorPosition="bottom"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,15,20"
+                                         emptyMessage="No hay registros"
+                                         rows="10">
+                                <p:column headerText="Pregunta">
+                                    <h:outputText value="#{previo.apartadoPregunta.pregunta}" style="font-weight: bold; font-family: helvetica;color: black; white-space: pre-wrap;"/>
+                                </p:column>
+                                <p:column width="150" headerText="Respuestas">
+                                    <p:selectOneRadio value="#{previo.respuesta}" style="padding: 0 0 0 20px;" required="true" requiredMessage="Debe seleccionar una respueta">
+                                        <f:selectItems value="#{previo.apartadoPregunta.pregunta.grupoRespuesta.respuestaList}"/>
+                                    </p:selectOneRadio>
+                                </p:column>
+                            </p:dataTable>
+                            <p/>
+                            <center>
+                                <p:commandButton value="Continuar" action="#{formulario.continuarConsultoria()}" update="@form"/>
+                            </center>
+                        </p:fieldset>
+                        <div class="Container10"/>
+                        <p:fieldset  rendered="#{formulario.pantallaConsultoria.mostrar}" class="Container100">
+                            <p:dataTable var="consultoria" value="#{formulario.consultoriaRespuestaList}"
+                                         paginator="true"
+                                         resizableColumns="true"
+                                         paginatorPosition="bottom"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,15,20"
+                                         emptyMessage="No hay registros"
+                                         rows="10">
+                                <p:column headerText="Pregunta">
+                                    <h:outputText value="#{consultoria.apartadoPregunta.pregunta}" style="font-weight: bold; font-family: helvetica;color: black; white-space: pre-wrap;"/>
+                                </p:column>
+                                <p:column headerText="Respuesta" width="200">
+                                    <p:selectOneRadio value="#{consultoria.respuesta}" 
+                                                      required="true" 
+                                                      requiredMessage="Debe seleccionar una respueta" layout="grid" columns="1" >
+                                        <f:selectItems value="#{consultoria.apartadoPregunta.pregunta.grupoRespuesta.respuestaList}"/>
+                                    </p:selectOneRadio>
+                                </p:column>
+                            </p:dataTable>
+                            <p/>
+                            <p:commandButton value="Enviar" action="#{formulario.guardar()}" />
+                        </p:fieldset>
+                    </h:form>
+                </div>
+            </div> 
+        </div> 
+    </ui:define>
+
+</ui:composition>
